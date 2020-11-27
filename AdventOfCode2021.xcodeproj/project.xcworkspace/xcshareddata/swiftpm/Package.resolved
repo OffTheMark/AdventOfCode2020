@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AdventOfCodeUtilities",
+        "repositoryURL": "https://github.com/OffTheMark/AdventOfCodeUtilities.git",
+        "state": {
+          "branch": "master",
+          "revision": "f089092836d0c564c80509453075bc2dc368f6cc",
+          "version": null
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+        "state": {
+          "branch": null,
+          "revision": "92646c0cdbaca076c8d3d0207891785b3379cbff",
+          "version": "0.3.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
