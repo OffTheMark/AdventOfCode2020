@@ -27,25 +27,23 @@ struct Day1: DayCommand {
     }
     
     func part1(with numbers: [Int]) -> Int {
-        let combinations = numbers.combinations(ofCount: 2)
-        let correctCombination = combinations.first(where: { combination in
-            return combination.reduce(0, +) == 2020
-        })!
+        let correctCombination = numbers
+            .combinations(ofCount: 2)
+            .first(where: { combination in
+                return combination.reduce(0, +) == 2020
+            })!
         
-        return correctCombination.reduce(into: 1, { product, number in
-            product *= number
-        })
+        return correctCombination.reduce(1, *)
     }
     
     func part2(with numbers: [Int]) -> Int {
-        let combinations = numbers.combinations(ofCount: 3)
-        let correctCombination = combinations.first(where: { combination in
-            return combination.reduce(0, +) == 2020
-        })!
+        let correctCombination = numbers
+            .combinations(ofCount: 3)
+            .first(where: { combination in
+                return combination.reduce(0, +) == 2020
+            })!
         
-        return correctCombination.reduce(into: 1, { product, number in
-            product *= number
-        })
+        return correctCombination.reduce(1, *)
     }
 }
 
