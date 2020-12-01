@@ -17,7 +17,7 @@
                BlueprintIdentifier = "3486A1A225708B080040D96E"
                BuildableName = "Day1"
                BlueprintName = "Day1"
-               ReferencedContainer = "container:AdventOfCode2021.xcodeproj">
+               ReferencedContainer = "container:AdventOfCode2020.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "3486A1A225708B080040D96E"
             BuildableName = "Day1"
             BlueprintName = "Day1"
-            ReferencedContainer = "container:AdventOfCode2021.xcodeproj">
+            ReferencedContainer = "container:AdventOfCode2020.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -70,7 +70,7 @@
             BlueprintIdentifier = "3486A1A225708B080040D96E"
             BuildableName = "Day1"
             BlueprintName = "Day1"
-            ReferencedContainer = "container:AdventOfCode2021.xcodeproj">
+            ReferencedContainer = "container:AdventOfCode2020.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
