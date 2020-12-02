@@ -33,14 +33,14 @@ extension FirstPasswordPolicy {
             return nil
         }
         
-        let trimmedLastPart = parts[1].trimmingCharacters(in: .init(charactersIn: ":"))
+        let trimmedCharacterPart = parts[1].trimmingCharacters(in: .init(charactersIn: ":"))
         
-        guard trimmedLastPart.count == 1 else {
+        guard trimmedCharacterPart.count == 1 else {
             return nil
         }
         
         self.validCount = bounds[0] ... bounds[1]
-        self.character = trimmedLastPart.first!
+        self.character = trimmedCharacterPart.first!
         self.password = parts[2]
     }
 }
@@ -82,14 +82,14 @@ extension OfficialPasswordPolicy {
             return nil
         }
         
-        let trimmedLastPart = parts[1].trimmingCharacters(in: .init(charactersIn: ":"))
+        let trimmedCharacterPart = parts[1].trimmingCharacters(in: .init(charactersIn: ":"))
         
-        guard trimmedLastPart.count == 1 else {
+        guard trimmedCharacterPart.count == 1 else {
             return nil
         }
         
         self.validIndices = validIndices
-        self.character = trimmedLastPart.first!
+        self.character = trimmedCharacterPart.first!
         self.password = parts[2]
     }
 }
