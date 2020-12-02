@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3432BC802576844800005E7D /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3432BC7F2576844800005E7D /* Algorithms */; };
 		3432BC892576B96F00005E7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BC882576B96F00005E7D /* main.swift */; };
+		3432BC992577CF7F00005E7D /* PasswordEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BC982577CF7F00005E7D /* PasswordEntry.swift */; };
+		3432BC9E2577D1A100005E7D /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3432BC9D2577D1A100005E7D /* AdventOfCodeUtilities */; };
 		3486A1A625708B080040D96E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3486A1A525708B080040D96E /* main.swift */; };
 		3486A1AE25708BA00040D96E /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3486A1AD25708BA00040D96E /* AdventOfCodeUtilities */; };
 /* End PBXBuildFile section */
@@ -38,6 +40,7 @@
 		3432BC862576B96F00005E7D /* Day2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day2; sourceTree = BUILT_PRODUCTS_DIR; };
 		3432BC882576B96F00005E7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3432BC8F2576B9A700005E7D /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
+		3432BC982577CF7F00005E7D /* PasswordEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntry.swift; sourceTree = "<group>"; };
 		3486A1A325708B080040D96E /* Day1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day1; sourceTree = BUILT_PRODUCTS_DIR; };
 		3486A1A525708B080040D96E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3486A1B025708C430040D96E /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
@@ -48,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3432BC9E2577D1A100005E7D /* AdventOfCodeUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,8 +72,16 @@
 			children = (
 				3432BC882576B96F00005E7D /* main.swift */,
 				3432BC8F2576B9A700005E7D /* puzzle_input.txt */,
+				3432BC982577CF7F00005E7D /* PasswordEntry.swift */,
 			);
 			path = Day2;
+			sourceTree = "<group>";
+		};
+		3432BC9C2577D1A100005E7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		3486A17E257085A90040D96E = {
@@ -78,6 +90,7 @@
 				3486A1A425708B080040D96E /* Day1 */,
 				3432BC872576B96F00005E7D /* Day2 */,
 				3486A188257085A90040D96E /* Products */,
+				3432BC9C2577D1A100005E7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,6 +128,9 @@
 			dependencies = (
 			);
 			name = Day2;
+			packageProductDependencies = (
+				3432BC9D2577D1A100005E7D /* AdventOfCodeUtilities */,
+			);
 			productName = Day2;
 			productReference = 3432BC862576B96F00005E7D /* Day2 */;
 			productType = "com.apple.product-type.tool";
@@ -186,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3432BC892576B96F00005E7D /* main.swift in Sources */,
+				3432BC992577CF7F00005E7D /* PasswordEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +424,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3432BC7E2576844800005E7D /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
+		};
+		3432BC9D2577D1A100005E7D /* AdventOfCodeUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3486A1AC25708BA00040D96E /* XCRemoteSwiftPackageReference "AdventOfCodeUtilities" */;
+			productName = AdventOfCodeUtilities;
 		};
 		3486A1AD25708BA00040D96E /* AdventOfCodeUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
