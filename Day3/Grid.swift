@@ -65,3 +65,14 @@ struct Coordinate {
 }
 
 extension Coordinate: Hashable {}
+
+extension Coordinate {
+    static func + (lhs: Coordinate, rhs: Coordinate) -> Coordinate {
+        return Coordinate(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
+    
+    static func +=(lhs: inout Coordinate, rhs: Coordinate) {
+        lhs.x += rhs.x
+        lhs.y += rhs.y
+    }
+}
