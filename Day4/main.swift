@@ -15,7 +15,9 @@ struct Day4: DayCommand {
     
     func run() throws {
         let rawString = try readFile()
-        let passports = rawString.components(separatedBy: "\n\n").map({ Passport(rawValue: $0) })
+        let passports = rawString
+            .components(separatedBy: "\n\n")
+            .map({ Passport(rawValue: $0) })
         
         let part1Solution = part1(with: passports)
         printTitle("Part1", level: .title1)
@@ -27,19 +29,11 @@ struct Day4: DayCommand {
     }
     
     func part1(with passports: [Passport]) -> Int {
-        return passports.reduce(into: 0, { count, passport in
-            if passport.hasAllRequiredFields {
-                count += 1
-            }
-        })
+        passports.count(where: { $0.hasAllRequiredFields })
     }
     
     func part2(with passports: [Passport]) -> Int {
-        return passports.reduce(into: 0, { count, passport in
-            if passport.hasAllValidFields {
-                count += 1
-            }
-        })
+        passports.count(where: { $0.hasAllValidFields })
     }
     
 }
