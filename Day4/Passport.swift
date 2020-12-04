@@ -36,7 +36,13 @@ struct Passport {
     }
     
     var hasAllValidFields: Bool {
-        return isBirthYearValid && isIssueYearValid && isExpirationYearValid && isHeightValid && isHairColorValid && isEyeColorValid && isPassportIDValid
+        return isBirthYearValid &&
+            isIssueYearValid &&
+            isExpirationYearValid &&
+            isHeightValid &&
+            isHairColorValid &&
+            isEyeColorValid &&
+            isPassportIDValid
     }
     
     static let requiredFields: Set<Field> = [.birthYear, .issueYear, .expirationYear, .height, .hairColor, .eyeColor, .passportID]
