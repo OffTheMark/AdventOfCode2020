@@ -30,7 +30,7 @@ struct BoardingPass {
         self.columnDirections = columnDirections
     }
     
-    func identifier() -> Int {
+    func seatID() -> Int {
         var validRows = Self.rowRange
         
         for direction in rowDirections {
