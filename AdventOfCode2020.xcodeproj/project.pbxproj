@@ -20,7 +20,6 @@
 		3432BCEA257A654000005E7D /* Passport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BCE9257A654000005E7D /* Passport.swift */; };
 		3432BCF6257AF10000005E7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BCF5257AF10000005E7D /* main.swift */; };
 		3432BD00257AF12D00005E7D /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3432BCFF257AF12D00005E7D /* AdventOfCodeUtilities */; };
-		3432BD08257BCFDD00005E7D /* BoardingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BD07257BCFDD00005E7D /* BoardingPass.swift */; };
 		3486A1A625708B080040D96E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3486A1A525708B080040D96E /* main.swift */; };
 		3486A1AE25708BA00040D96E /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3486A1AD25708BA00040D96E /* AdventOfCodeUtilities */; };
 /* End PBXBuildFile section */
@@ -89,7 +88,6 @@
 		3432BCF3257AF10000005E7D /* Day5 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day5; sourceTree = BUILT_PRODUCTS_DIR; };
 		3432BCF5257AF10000005E7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3432BD01257AF1D600005E7D /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
-		3432BD07257BCFDD00005E7D /* BoardingPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPass.swift; sourceTree = "<group>"; };
 		3486A1A325708B080040D96E /* Day1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day1; sourceTree = BUILT_PRODUCTS_DIR; };
 		3486A1A525708B080040D96E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3486A1B025708C430040D96E /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 			children = (
 				3432BCF5257AF10000005E7D /* main.swift */,
 				3432BD01257AF1D600005E7D /* puzzle_input.txt */,
-				3432BD07257BCFDD00005E7D /* BoardingPass.swift */,
 			);
 			path = Day5;
 			sourceTree = "<group>";
@@ -411,7 +408,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3432BD08257BCFDD00005E7D /* BoardingPass.swift in Sources */,
 				3432BCF6257AF10000005E7D /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

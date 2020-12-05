@@ -26,15 +26,11 @@ struct Day5: DayCommand {
     }
     
     func part1(with passes: [BoardingPass]) -> Int {
-        return passes.reduce(into: 0, { maximumID, pass in
-            let seatID = pass.seatID()
-            
-            maximumID = max(seatID, maximumID)
-        })
+        return passes.max(by: { $0.seatID < $1.seatID })!.seatID
     }
     
     func part2(with passes: [BoardingPass]) -> Int {
-        let identifiers = passes.map({ $0.seatID() }).sorted()
+        let identifiers = passes.map({ $0.seatID }).sorted()
         
         for (index, current) in identifiers.dropLast().enumerated() {
             let next = identifiers[index + 1]
@@ -45,6 +41,26 @@ struct Day5: DayCommand {
         }
         
         fatalError("Could not find seat ID")
+    }
+}
+
+struct BoardingPass {
+    let rawValue: String
+    let seatID: Int
+    
+    init?(rawValue: String) {
+        let binary = rawValue
+            .replacingOccurrences(of: "F", with: "0")
+            .replacingOccurrences(of: "B", with: "1")
+            .replacingOccurrences(of: "L", with: "0")
+            .replacingOccurrences(of: "R", with: "1")
+        
+        guard let seatID = Int(binary, radix: 2) else {
+            return nil
+        }
+        
+        self.rawValue = rawValue
+        self.seatID = seatID
     }
 }
 
