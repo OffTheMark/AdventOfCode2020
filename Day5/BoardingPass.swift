@@ -32,29 +32,28 @@ struct BoardingPass {
     
     func seatID() -> Int {
         var validRows = Self.rowRange
-        
         for direction in rowDirections {
-            let halfLength = validRows.count / 2
+            let halfCount = (validRows.upperBound - validRows.lowerBound) / 2
             
             switch direction {
             case .front:
-                validRows = validRows.lowerBound ..< (validRows.lowerBound + halfLength)
+                validRows = validRows.lowerBound ..< (validRows.lowerBound + halfCount)
                 
             case .back:
-                validRows = (validRows.lowerBound + halfLength) ..< validRows.upperBound
+                validRows = (validRows.lowerBound + halfCount) ..< validRows.upperBound
             }
         }
         
         var validColumns = Self.columnRange
         for direction in columnDirections {
-            let halfLength = validColumns.count / 2
+            let halfCount = (validColumns.upperBound - validColumns.lowerBound) / 2
             
             switch direction {
             case .left:
-                validColumns = validColumns.lowerBound ..< (validColumns.lowerBound + halfLength)
+                validColumns = validColumns.lowerBound ..< (validColumns.lowerBound + halfCount)
                 
             case .right:
-                validColumns = (validColumns.lowerBound + halfLength) ..< validColumns.upperBound
+                validColumns = (validColumns.lowerBound + halfCount) ..< validColumns.upperBound
             }
         }
         
