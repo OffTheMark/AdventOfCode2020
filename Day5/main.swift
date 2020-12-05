@@ -49,11 +49,18 @@ struct BoardingPass {
     let seatID: Int
     
     init?(rawValue: String) {
-        let binary = rawValue
-            .replacingOccurrences(of: "F", with: "0")
-            .replacingOccurrences(of: "B", with: "1")
-            .replacingOccurrences(of: "L", with: "0")
-            .replacingOccurrences(of: "R", with: "1")
+        let binary = String(rawValue.map({ character in
+            switch character {
+            case "F", "L":
+                return "0"
+                
+            case "B", "R":
+                return "1"
+            
+            default:
+                return character
+            }
+        }))
         
         guard let seatID = Int(binary, radix: 2) else {
             return nil
