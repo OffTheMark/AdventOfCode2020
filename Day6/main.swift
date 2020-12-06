@@ -20,6 +20,10 @@ struct Day6: DayCommand {
         let part1Solution = part1(with: groups)
         printTitle("Part 1", level: .title1)
         print("Sum:", part1Solution, terminator: "\n\n")
+        
+        let part2Solution = part2(with: groups)
+        printTitle("Part 2", level: .title1)
+        print("Sum:", part2Solution)
     }
     
     func part1(with groups: [String]) -> Int {
@@ -28,6 +32,30 @@ struct Day6: DayCommand {
             let disctinctQuestionsAnswered = Set(allAnswers)
             count += disctinctQuestionsAnswered.count
         })
+    }
+    
+    func part2(with groups: [String]) -> Int {
+        var count = 0
+        
+        for group in groups {
+            var answers = group.components(separatedBy: .newlines)
+            
+            if answers.isEmpty {
+                continue
+            }
+            
+            let firstAnswer = answers.removeFirst()
+            var questionsAnsweredByEveryone = Set(firstAnswer)
+            
+            for answer in answers {
+                let questionsAnswered = Set(answer)
+                questionsAnsweredByEveryone.formIntersection(questionsAnswered)
+            }
+            
+            count += questionsAnsweredByEveryone.count
+        }
+        
+        return count
     }
 }
 
