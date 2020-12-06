@@ -38,16 +38,16 @@ struct Day6: DayCommand {
         var count = 0
         
         for group in groups {
-            var answers = group.components(separatedBy: .newlines)
+            let answers = group.components(separatedBy: .newlines)
             
             if answers.isEmpty {
                 continue
             }
             
-            let firstAnswer = answers.removeFirst()
+            let firstAnswer = answers[0]
             var questionsAnsweredByEveryone = Set(firstAnswer)
             
-            for answer in answers {
+            for answer in answers.dropFirst() {
                 let questionsAnswered = Set(answer)
                 questionsAnsweredByEveryone.formIntersection(questionsAnswered)
             }
