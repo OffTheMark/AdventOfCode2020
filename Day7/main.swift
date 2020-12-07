@@ -29,29 +29,24 @@ struct Day7: DayCommand {
                 result[rule.luggage] = rule
             })
         var soughtLuggages: Set<Luggage> = [.shinyGold]
-        var luggagesDirectlyContainingSought = rulesByLuggage
-            .filter({ (luggage, rule) in
-                guard !soughtLuggages.contains(luggage) else {
-                    return false
-                }
-                
-                let intersection = soughtLuggages.intersection(rule.distinctContents)
-                return !intersection.isEmpty
-            })
-            .map({ $0.key })
         
-        while luggagesDirectlyContainingSought.isEmpty == false {
-            soughtLuggages.formUnion(luggagesDirectlyContainingSought)
-            
-            luggagesDirectlyContainingSought = rulesByLuggage
+        while true {
+            let luggagesDirectlyContainingSought = rulesByLuggage
                 .filter({ (luggage, rule) in
                     guard !soughtLuggages.contains(luggage) else {
                         return false
                     }
                     
-                    return !soughtLuggages.isDisjoint(with: rule.distinctContents)
+                    let intersection = soughtLuggages.intersection(rule.distinctContents)
+                    return !intersection.isEmpty
                 })
                 .map({ $0.key })
+            
+            if luggagesDirectlyContainingSought.isEmpty {
+                break
+            }
+            
+            soughtLuggages.formUnion(luggagesDirectlyContainingSought)
         }
         
         return soughtLuggages.subtracting([.shinyGold]).count
