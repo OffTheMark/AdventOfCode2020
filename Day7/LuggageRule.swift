@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftDataStructures
 
 struct LuggageRule {
     let luggage: Luggage
