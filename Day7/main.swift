@@ -8,23 +8,25 @@
 import Foundation
 import AdventOfCodeUtilities
 import ArgumentParser
-import SwiftDataStructures
 
 struct Day7: DayCommand {
     @Argument(help: "Puzzle input path")
     var puzzleInputPath: String
     
     func run() throws {
-        let lines = try readLines()
+        let rules = try readLines().compactMap({ LuggageRule(rawValue: $0) })
         
-        let part1Solution = part1(with: lines)
+        let part1Solution = part1(with: rules)
         printTitle("Part 1", level: .title1)
         print("Count:", part1Solution, terminator: "\n\n")
+        
+        let part2Solution = part2(with: rules)
+        printTitle("Part 2", level: .title1)
+        print("Count:", part2Solution)
     }
     
-    func part1(with lines: [String]) -> Int {
-        let rulesByLuggage: [Luggage: LuggageRule] = lines
-            .compactMap({ LuggageRule(rawValue: $0) })
+    func part1(with rules: [LuggageRule]) -> Int {
+        let rulesByLuggage: [Luggage: LuggageRule] = rules
             .reduce(into: [:], { result, rule in
                 result[rule.luggage] = rule
             })
@@ -50,6 +52,34 @@ struct Day7: DayCommand {
         }
         
         return soughtLuggages.subtracting([.shinyGold]).count
+    }
+    
+    func part2(with rules: [LuggageRule]) -> Int {
+        let rulesByLuggage: [Luggage: LuggageRule] = rules
+            .reduce(into: [:], { result, rule in
+                result[rule.luggage] = rule
+            })
+        var memo: [Luggage: Int] = [:]
+        
+        func bagCountPerLuggage(for root: Luggage) -> Int {
+            let rule = rulesByLuggage[root]!
+            
+            if let count = memo[root] {
+                return count
+            }
+            
+            var result = 0
+            for (luggage, count) in rule.allowedContents {
+                let countOfBags = bagCountPerLuggage(for: luggage)
+                result += count * countOfBags + count
+            }
+            
+            memo[root] = result
+            
+            return result
+        }
+        
+        return bagCountPerLuggage(for: .shinyGold)
     }
 }
 
