@@ -61,17 +61,17 @@ struct Day7: DayCommand {
             })
         var memo: [Luggage: Int] = [:]
         
-        func bagCountPerLuggage(for root: Luggage) -> Int {
+        func totalBags(for root: Luggage) -> Int {
             let rule = rulesByLuggage[root]!
             
-            if let count = memo[root] {
-                return count
+            if let countOfLuggage = memo[root] {
+                return countOfLuggage
             }
             
             var result = 0
-            for (luggage, count) in rule.allowedContents {
-                let countOfBags = bagCountPerLuggage(for: luggage)
-                result += count * countOfBags + count
+            for (luggage, countOfLuggage) in rule.allowedContents {
+                let totalBags = totalBags(for: luggage)
+                result += countOfLuggage * totalBags + countOfLuggage
             }
             
             memo[root] = result
@@ -79,7 +79,7 @@ struct Day7: DayCommand {
             return result
         }
         
-        return bagCountPerLuggage(for: .shinyGold)
+        return totalBags(for: .shinyGold)
     }
 }
 
