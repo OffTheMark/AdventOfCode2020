@@ -70,8 +70,8 @@ struct Day7: DayCommand {
             
             var result = 0
             for (luggage, countOfLuggage) in rule.allowedContents {
-                let totalBags = totalBags(for: luggage)
-                result += countOfLuggage * totalBags + countOfLuggage
+                let countOfBags = totalBags(for: luggage)
+                result += countOfLuggage * countOfBags + countOfLuggage
             }
             
             memo[root] = result
