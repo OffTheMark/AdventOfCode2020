@@ -25,6 +25,8 @@ class Console {
         }
     }
     
+    var currentInstruction: Instruction { instructions[currentIndex] }
+    
     init(instructions: [Instruction], accumulator: Int = 0) {
         self.instructions = instructions
         self.currentIndex = instructions.startIndex
