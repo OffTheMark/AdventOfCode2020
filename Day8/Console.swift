@@ -46,6 +46,8 @@ class Console {
     }
     
     func executeNextInstruction() {
+        assert(canExecuteNextInstruction, "Current index \(currentIndex) is out of bounds: \(instructions.indices)")
+        
         let instruction = instructions[currentIndex]
         
         switch instruction.operation {
@@ -93,6 +95,15 @@ extension Instruction {
         
         self.operation = operation
         self.argument = argument
+    }
+}
+
+extension Instruction: CustomStringConvertible {
+    var description: String {
+        let formatter = NumberFormatter()
+        formatter.positivePrefix = "+"
+        
+        return "\(operation.rawValue) \(formatter.string(from: NSNumber(value: argument))!)"
     }
 }
 
