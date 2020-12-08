@@ -25,6 +25,9 @@
 		3432BD34257E586200005E7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BD33257E586200005E7D /* main.swift */; };
 		3432BD40257E586800005E7D /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3432BD3F257E586800005E7D /* AdventOfCodeUtilities */; };
 		3432BD51257E59F700005E7D /* LuggageRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BD50257E59F700005E7D /* LuggageRule.swift */; };
+		3475B31F257FA99F00428052 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B31E257FA99F00428052 /* main.swift */; };
+		3475B32C257FA9A300428052 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3475B32B257FA9A300428052 /* AdventOfCodeUtilities */; };
+		3475B348257FA9E500428052 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B347257FA9E500428052 /* Instruction.swift */; };
 		3486A1A625708B080040D96E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3486A1A525708B080040D96E /* main.swift */; };
 		3486A1AE25708BA00040D96E /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3486A1AD25708BA00040D96E /* AdventOfCodeUtilities */; };
 /* End PBXBuildFile section */
@@ -84,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		3475B31A257FA99F00428052 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		3486A1A125708B080040D96E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -118,6 +130,10 @@
 		3432BD33257E586200005E7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3432BD48257E58D800005E7D /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
 		3432BD50257E59F700005E7D /* LuggageRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuggageRule.swift; sourceTree = "<group>"; };
+		3475B31C257FA99F00428052 /* Day8 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day8; sourceTree = BUILT_PRODUCTS_DIR; };
+		3475B31E257FA99F00428052 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		3475B347257FA9E500428052 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		3475B359257FAE4200428052 /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
 		3486A1A325708B080040D96E /* Day1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day1; sourceTree = BUILT_PRODUCTS_DIR; };
 		3486A1A525708B080040D96E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3486A1B025708C430040D96E /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
@@ -170,6 +186,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3432BD40257E586800005E7D /* AdventOfCodeUtilities in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3475B319257FA99F00428052 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3475B32C257FA9A300428052 /* AdventOfCodeUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +274,16 @@
 			path = Day7;
 			sourceTree = "<group>";
 		};
+		3475B31D257FA99F00428052 /* Day8 */ = {
+			isa = PBXGroup;
+			children = (
+				3475B31E257FA99F00428052 /* main.swift */,
+				3475B347257FA9E500428052 /* Instruction.swift */,
+				3475B359257FAE4200428052 /* puzzle_input.txt */,
+			);
+			path = Day8;
+			sourceTree = "<group>";
+		};
 		3486A17E257085A90040D96E = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +294,7 @@
 				3432BCF4257AF10000005E7D /* Day5 */,
 				3432BD18257D1ABC00005E7D /* Day6 */,
 				3432BD32257E586200005E7D /* Day7 */,
+				3475B31D257FA99F00428052 /* Day8 */,
 				3486A188257085A90040D96E /* Products */,
 				3432BC9C2577D1A100005E7D /* Frameworks */,
 			);
@@ -275,6 +310,7 @@
 				3432BCF3257AF10000005E7D /* Day5 */,
 				3432BD17257D1ABC00005E7D /* Day6 */,
 				3432BD31257E586200005E7D /* Day7 */,
+				3475B31C257FA99F00428052 /* Day8 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -412,6 +448,26 @@
 			productReference = 3432BD31257E586200005E7D /* Day7 */;
 			productType = "com.apple.product-type.tool";
 		};
+		3475B31B257FA99F00428052 /* Day8 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3475B322257FA99F00428052 /* Build configuration list for PBXNativeTarget "Day8" */;
+			buildPhases = (
+				3475B318257FA99F00428052 /* Sources */,
+				3475B319257FA99F00428052 /* Frameworks */,
+				3475B31A257FA99F00428052 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Day8;
+			packageProductDependencies = (
+				3475B32B257FA9A300428052 /* AdventOfCodeUtilities */,
+			);
+			productName = Day8;
+			productReference = 3475B31C257FA99F00428052 /* Day8 */;
+			productType = "com.apple.product-type.tool";
+		};
 		3486A1A225708B080040D96E /* Day1 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3486A1A725708B080040D96E /* Build configuration list for PBXNativeTarget "Day1" */;
@@ -460,6 +516,9 @@
 					3432BD30257E586200005E7D = {
 						CreatedOnToolsVersion = 12.0.1;
 					};
+					3475B31B257FA99F00428052 = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
 					3486A1A225708B080040D96E = {
 						CreatedOnToolsVersion = 12.0.1;
 					};
@@ -490,6 +549,7 @@
 				3432BCF2257AF10000005E7D /* Day5 */,
 				3432BD16257D1ABC00005E7D /* Day6 */,
 				3432BD30257E586200005E7D /* Day7 */,
+				3475B31B257FA99F00428052 /* Day8 */,
 			);
 		};
 /* End PBXProject section */
@@ -544,6 +604,15 @@
 			files = (
 				3432BD51257E59F700005E7D /* LuggageRule.swift in Sources */,
 				3432BD34257E586200005E7D /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3475B318257FA99F00428052 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3475B348257FA9E500428052 /* Instruction.swift in Sources */,
+				3475B31F257FA99F00428052 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,6 +727,24 @@
 			name = Debug;
 		};
 		3432BD37257E586200005E7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3475B320257FA99F00428052 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3475B321257FA99F00428052 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -856,6 +943,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		3475B322257FA99F00428052 /* Build configuration list for PBXNativeTarget "Day8" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3475B320257FA99F00428052 /* Debug */,
+				3475B321257FA99F00428052 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3486A182257085A90040D96E /* Build configuration list for PBXProject "AdventOfCode2020" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -940,6 +1036,11 @@
 			productName = AdventOfCodeUtilities;
 		};
 		3432BD3F257E586800005E7D /* AdventOfCodeUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3486A1AC25708BA00040D96E /* XCRemoteSwiftPackageReference "AdventOfCodeUtilities" */;
+			productName = AdventOfCodeUtilities;
+		};
+		3475B32B257FA9A300428052 /* AdventOfCodeUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3486A1AC25708BA00040D96E /* XCRemoteSwiftPackageReference "AdventOfCodeUtilities" */;
 			productName = AdventOfCodeUtilities;
