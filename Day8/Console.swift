@@ -22,7 +22,7 @@ class Console {
         self.accumulator = accumulator
     }
     
-    func nextInstruction() -> Bool {
+    func nextInstruction() {
         let instruction = instructions[currentIndex]
         
         switch instruction.operation {
@@ -31,6 +31,7 @@ class Console {
             
         case .jump:
             currentIndex = instructions.index(currentIndex, offsetBy: instruction.argument)
+            return
             
         case .noOperation:
             break
