@@ -26,7 +26,7 @@ struct Day8: DayCommand {
         
         var visitedInstructions = Set<Int>()
         
-        while true {
+        while console.state == .executing {
             let (inserted, _) = visitedInstructions.insert(console.currentIndex)
             if !inserted {
                 return (console.accumulator, console.currentIndex)

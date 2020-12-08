@@ -12,8 +12,17 @@ class Console {
     private(set) var currentIndex: Int
     let instructions: [Instruction]
     
-    var hasTerminated: Bool {
-        currentIndex >= instructions.endIndex
+    var state: State {
+        switch currentIndex {
+        case instructions.indices:
+            return .executing
+            
+        case instructions.endIndex:
+            return .safelyTerminated
+            
+        default:
+            return .invalid
+        }
     }
     
     init(instructions: [Instruction], accumulator: Int = 0) {
@@ -38,6 +47,12 @@ class Console {
         }
         
         currentIndex = instructions.index(after: currentIndex)
+    }
+    
+    enum State {
+        case executing
+        case safelyTerminated
+        case invalid
     }
 }
 
