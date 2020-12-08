@@ -53,16 +53,14 @@ class Console {
         switch instruction.operation {
         case .accumulate:
             accumulator += instruction.argument
+            currentIndex = instructions.index(after: currentIndex)
             
         case .jump:
             currentIndex = instructions.index(currentIndex, offsetBy: instruction.argument)
-            return
             
         case .noOperation:
-            break
+            currentIndex = instructions.index(after: currentIndex)
         }
-        
-        currentIndex = instructions.index(after: currentIndex)
     }
     
     enum ExecutionResult {
