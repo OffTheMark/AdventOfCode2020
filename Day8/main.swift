@@ -22,30 +22,17 @@ struct Day8: DayCommand {
     }
     
     func part1(with instructions: [Instruction]) -> Int {
-        var accumulator = 0
-        var currentIndex = instructions.startIndex
+        let console = Console(instructions: instructions)
         
         var visitedInstructions = Set<Int>()
         
-        while currentIndex < instructions.endIndex {
-            let instruction = instructions[currentIndex]
-            
-            let (inserted, _) = visitedInstructions.insert(currentIndex)
+        while true {
+            let (inserted, _) = visitedInstructions.insert(console.currentIndex)
             if !inserted {
-                return accumulator
+                return console.accumulator
             }
             
-            switch instruction.operation {
-            case .accumulate:
-                accumulator += instruction.argument
-                currentIndex = instructions.index(after: currentIndex)
-                
-            case .noOperation:
-                currentIndex = instructions.index(after: currentIndex)
-                
-            case .jump:
-                currentIndex = instructions.index(currentIndex, offsetBy: instruction.argument)
-            }
+            console.nextInstruction()
         }
         
         fatalError("Program terminated")
