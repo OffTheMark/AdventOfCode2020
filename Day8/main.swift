@@ -25,6 +25,7 @@ struct Day8: DayCommand {
         printTitle("Title 2", level: .title1)
         print("Accumulator:", part2Solution.accumulator)
         print("Index of corruption:", part2Solution.indexOfCorruption)
+        print("Corrupted instruction:", part2Solution.corruptedInstruction)
     }
     
     func part1(using instructions: [Instruction]) -> (accumulator: Int, startIndexOfLoop: Int) {
@@ -32,19 +33,22 @@ struct Day8: DayCommand {
         
         var visitedInstructions = Set<Int>()
         
-        while console.state == .executing {
+        while console.canExecuteNextInstruction {
             let (inserted, _) = visitedInstructions.insert(console.currentIndex)
             if !inserted {
                 return (console.accumulator, console.currentIndex)
             }
             
-            console.nextInstruction()
+            console.executeNextInstruction()
         }
         
         fatalError("Program terminated")
     }
     
-    func part2(using instructions: [Instruction], startIndexOfLoop: Int) -> (accumulator: Int, indexOfCorruption: Int) {
+    func part2(
+        using instructions: [Instruction],
+        startIndexOfLoop: Int
+    ) -> (accumulator: Int, indexOfCorruption: Int, corruptedInstruction: Instruction) {
         let sequenceLeadingToLoop = instructionsLeadingToLoop(startingAt: startIndexOfLoop, using: instructions)
         let possibleCorrections: [(index: Int, instruction: Instruction)] = sequenceLeadingToLoop
             .compactMap({ (index, instruction) in
@@ -64,14 +68,15 @@ struct Day8: DayCommand {
             var newInstructions = instructions
             newInstructions[correction.index] = correction.instruction
             
-            let result = executeToCompletion(instructions: newInstructions)
+            let console = Console(instructions: newInstructions)
+            let result = console.executeToCompletion()
             
             switch result {
             case .stuckInLoop, .invalid:
                 continue
                 
-            case .corrected(let accumulator):
-                return (accumulator, correction.index)
+            case .safelyTerminated:
+                return (console.accumulator, correction.index, instructions[correction.index])
             }
         }
         
@@ -86,7 +91,7 @@ struct Day8: DayCommand {
         var timesStartOfLoopWasEncoutered = 0
         var sequenceLeadingToLoop = [(index: Int, instruction: Instruction)]()
         
-        while console.state == .executing {
+        while console.canExecuteNextInstruction {
             let currentInstruction = console.currentInstruction
             
             if console.currentIndex == startIndexOfLoop {
@@ -98,41 +103,10 @@ struct Day8: DayCommand {
             }
             
             sequenceLeadingToLoop.append((console.currentIndex, currentInstruction))
-            console.nextInstruction()
+            console.executeNextInstruction()
         }
         
         fatalError("Invalid state")
-    }
-    
-    private func executeToCompletion(instructions: [Instruction]) -> ExecutionResult {
-        let console = Console(instructions: instructions)
-        var visitedInstructions = Set<Int>()
-        
-        while console.state == .executing {
-            let (inserted, _) = visitedInstructions.insert(console.currentIndex)
-            if !inserted {
-                return .stuckInLoop
-            }
-            
-            console.nextInstruction()
-        }
-        
-        switch console.state {
-        case .invalid:
-            return .invalid
-            
-        case .safelyTerminated:
-            return .corrected(accumulator: console.accumulator)
-            
-        case .executing:
-            fatalError("Invalid state")
-        }
-    }
-    
-    enum ExecutionResult {
-        case corrected(accumulator: Int)
-        case invalid
-        case stuckInLoop
     }
 }
 

@@ -12,17 +12,8 @@ class Console {
     private(set) var currentIndex: Int
     let instructions: [Instruction]
     
-    var state: State {
-        switch currentIndex {
-        case instructions.indices:
-            return .executing
-            
-        case instructions.endIndex:
-            return .safelyTerminated
-            
-        default:
-            return .invalid
-        }
+    var canExecuteNextInstruction: Bool {
+        instructions.indices.contains(currentIndex)
     }
     
     var currentInstruction: Instruction { instructions[currentIndex] }
@@ -33,7 +24,28 @@ class Console {
         self.accumulator = accumulator
     }
     
-    func nextInstruction() {
+    func executeToCompletion() -> ExecutionResult {
+        var visitedInstructions = Set<Int>()
+        
+        while canExecuteNextInstruction {
+            let (inserted, _) = visitedInstructions.insert(currentIndex)
+            
+            if !inserted {
+                return .stuckInLoop
+            }
+            
+            executeNextInstruction()
+        }
+        
+        if currentIndex == instructions.endIndex {
+            return .safelyTerminated
+        }
+        else {
+            return .invalid
+        }
+    }
+    
+    func executeNextInstruction() {
         let instruction = instructions[currentIndex]
         
         switch instruction.operation {
@@ -51,10 +63,10 @@ class Console {
         currentIndex = instructions.index(after: currentIndex)
     }
     
-    enum State {
-        case executing
+    enum ExecutionResult {
         case safelyTerminated
         case invalid
+        case stuckInLoop
     }
 }
 
