@@ -18,10 +18,10 @@ struct Day8: DayCommand {
         
         let part1Solution = part1(with: instructions)
         printTitle("Title 1", level: .title1)
-        print("Accumulator:", part1Solution, terminator: "\n\n")
+        print("Accumulator:", part1Solution.accumulator, terminator: "\n\n")
     }
     
-    func part1(with instructions: [Instruction]) -> Int {
+    func part1(with instructions: [Instruction]) -> (accumulator: Int, startIndexOfLoop: Int) {
         let console = Console(instructions: instructions)
         
         var visitedInstructions = Set<Int>()
@@ -29,7 +29,7 @@ struct Day8: DayCommand {
         while true {
             let (inserted, _) = visitedInstructions.insert(console.currentIndex)
             if !inserted {
-                return console.accumulator
+                return (console.accumulator, console.currentIndex)
             }
             
             console.nextInstruction()
