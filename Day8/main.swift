@@ -88,17 +88,17 @@ struct Day8: DayCommand {
         using instructions: [Instruction]
     ) -> [(index: Int, instruction: Instruction)] {
         let console = Console(instructions: instructions)
-        var timesStartOfLoopWasEncoutered = 0
+        var timesStartOfLoopWasEncountered = 0
         var sequenceLeadingToLoop = [(index: Int, instruction: Instruction)]()
         
         while console.canExecuteNextInstruction {
             let currentInstruction = console.currentInstruction
             
             if console.currentIndex == startIndexOfLoop {
-                timesStartOfLoopWasEncoutered += 1
+                timesStartOfLoopWasEncountered += 1
             }
             
-            if timesStartOfLoopWasEncoutered == 2 {
+            if timesStartOfLoopWasEncountered == 2 {
                 return sequenceLeadingToLoop
             }
             
