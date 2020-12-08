@@ -12,13 +12,17 @@ class Console {
     private(set) var currentIndex: Int
     let instructions: [Instruction]
     
+    var hasTerminated: Bool {
+        currentIndex >= instructions.endIndex
+    }
+    
     init(instructions: [Instruction], accumulator: Int = 0) {
         self.instructions = instructions
         self.currentIndex = instructions.startIndex
         self.accumulator = accumulator
     }
     
-    func nextInstruction() {
+    func nextInstruction() -> Bool {
         let instruction = instructions[currentIndex]
         
         switch instruction.operation {
@@ -27,7 +31,6 @@ class Console {
             
         case .jump:
             currentIndex = instructions.index(currentIndex, offsetBy: instruction.argument)
-            return
             
         case .noOperation:
             break
