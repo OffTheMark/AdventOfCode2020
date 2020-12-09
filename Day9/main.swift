@@ -21,9 +21,11 @@ struct Day9: DayCommand {
         printTitle("Part 1", level: .title1)
         print("Invalid number:", part1Solution, terminator: "\n\n")
         
-        let part2Solution = part2(withInvalidNumber: part1Solution, using: numbers)
+        let contiguousNumbers = part2(withInvalidNumber: part1Solution, using: numbers)
+        let part2Solution = contiguousNumbers.min()! + contiguousNumbers.max()!
         printTitle("Part 1", level: .title1)
-        print("Invalid number:", part2Solution)
+        print("Sum:", part2Solution)
+        print("Contiguous numbers:", contiguousNumbers)
     }
     
     func part1(using numbers: [Int]) -> Int {
@@ -50,26 +52,26 @@ struct Day9: DayCommand {
         return numbers[currentIndex]
     }
     
-    func part2(withInvalidNumber invalidNumber: Int, using numbers: [Int]) -> Int {
-        var searchSize = 2
+    func part2(withInvalidNumber invalidNumber: Int, using numbers: [Int]) -> [Int] {
+        var solution: [Int]?
         
-        while true {
+        for searchSize in 2... {
             for startIndex in numbers.startIndex ..< (numbers.endIndex - searchSize - 1) {
                 let contiguousNumbers = Array(numbers[startIndex ..< startIndex + searchSize])
                 let sumOfContiguousNumber = contiguousNumbers.reduce(0, +)
                 
                 if sumOfContiguousNumber == invalidNumber {
-                    let minimum = contiguousNumbers.min()!
-                    let maximum = contiguousNumbers.max()!
-                    
-                    return minimum + maximum
+                    solution = contiguousNumbers
+                    break
                 }
             }
             
-            searchSize += 1
+            if solution != nil {
+                break
+            }
         }
         
-        fatalError("Invalid state")
+        return solution!
     }
 }
 
