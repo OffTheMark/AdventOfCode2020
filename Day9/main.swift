@@ -17,12 +17,16 @@ struct Day9: DayCommand {
     func run() throws {
         let numbers = try readLines().compactMap({ Int($0) })
         
-        let part1Solution = part1(with: numbers)
+        let part1Solution = part1(using: numbers)
         printTitle("Part 1", level: .title1)
-        print("First number that does not have the property:", part1Solution, terminator: "\n\n")
+        print("Invalid number:", part1Solution, terminator: "\n\n")
+        
+        let part2Solution = part2(withInvalidNumber: part1Solution, using: numbers)
+        printTitle("Part 1", level: .title1)
+        print("Invalid number:", part2Solution)
     }
     
-    func part1(with numbers: [Int]) -> Int {
+    func part1(using numbers: [Int]) -> Int {
         let preamble = numbers[0..<25]
         var knownSums: [Int: (Int, Int)] = preamble.combinations(ofCount: 2)
             .reduce(into: [:], { result, combination in
@@ -43,6 +47,28 @@ struct Day9: DayCommand {
         }
         
         return numbers[currentIndex]
+    }
+    
+    func part2(withInvalidNumber invalidNumber: Int, using numbers: [Int]) -> Int {
+        var searchSize = 2
+        
+        while true {
+            for startIndex in numbers.startIndex ..< (numbers.endIndex - searchSize - 1) {
+                let contiguousNumbers = Array(numbers[startIndex ..< startIndex + searchSize])
+                let sumOfContiguousNumber = contiguousNumbers.reduce(0, +)
+                
+                if sumOfContiguousNumber == invalidNumber {
+                    let minimum = contiguousNumbers.min()!
+                    let maximum = contiguousNumbers.max()!
+                    
+                    return minimum + maximum
+                }
+            }
+            
+            searchSize += 1
+        }
+        
+        fatalError("Invalid state")
     }
 }
 
