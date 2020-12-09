@@ -27,20 +27,21 @@ struct Day9: DayCommand {
     }
     
     func part1(using numbers: [Int]) -> Int {
-        let preamble = numbers[0..<25]
-        var knownSums: [Int: (Int, Int)] = preamble.combinations(ofCount: 2)
-            .reduce(into: [:], { result, combination in
+        var currentIndex = 25
+        let preamble = numbers[0 ..< currentIndex]
+        
+        var knownSums: Set<Int> = preamble.combinations(ofCount: 2)
+            .reduce(into: [], { result, combination in
                 let sum = combination.reduce(0, +)
-                result[sum] = (combination[0], combination[1])
+                result.insert(sum)
             })
         
-        var currentIndex = 25
-        while knownSums.keys.contains(numbers[currentIndex]) {
+        while knownSums.contains(numbers[currentIndex]) {
             let currentNumber = numbers[currentIndex]
             
             for previousNumber in numbers[...currentIndex] {
                 let sum = currentNumber + previousNumber
-                knownSums[sum] = (previousNumber, currentNumber)
+                knownSums.insert(sum)
             }
             
             currentIndex = numbers.index(after: currentIndex)
