@@ -18,50 +18,24 @@ struct Day10: DayCommand {
         let adapters: [Int] = try readLines().compactMap({ Int($0) })
         
         let part1Solution = part1(using: adapters)
+        printTitle("Title 1", level: .title1)
+        print("Product:", part1Solution, terminator: "\n\n")
     }
     
     func part1(using adapters: [Int]) -> Int {
-        func findPath(using adapters: [Int]) -> [Int] {
-            let deviceAdapterRating = adapters.max()! + 3
+        var countByJoltDifference = [Int: Int]()
+        let sortedAdapters = adapters.sorted()
+        let chain = [0] + sortedAdapters + [sortedAdapters.last! + 3]
+        
+        for index in chain.indices.dropLast() {
+            let currentRating = chain[index]
+            let nextRating = chain[index + 1]
+            let difference = nextRating - currentRating
             
-            var queue = Queue<[Int]>()
-            queue.enqueue([0])
-            
-            var discovered = Set<[Int]>()
-            discovered.insert([0])
-            
-            while !queue.isEmpty {
-                let dequeued = queue.dequeue()
-                let last = dequeued.last!
-                
-                if dequeued.count == adapters.count, (deviceAdapterRating - 2 ... deviceAdapterRating).contains(last) {
-                    return dequeued
-                }
-                
-                let neighbors = adapters
-                    .filter({ rating in
-                        if dequeued.contains(rating) {
-                            return false
-                        }
-                        
-                        return (last + 1 ... last + 3).contains(rating)
-                    })
-                    .map({ lastRating in
-                        return dequeued + [lastRating]
-                    })
-                
-                for neighbor in neighbors where !discovered.contains(neighbor) {
-                    queue.enqueue(neighbor)
-                    discovered.insert(neighbor)
-                }
-            }
-            
-            fatalError("Invalid state")
+            countByJoltDifference[difference, default: 0] += 1
         }
         
-        let path = findPath(using: adapters)
-        
-        return 0
+        return countByJoltDifference[1, default: 0] * countByJoltDifference[3, default: 0]
     }
 }
 
