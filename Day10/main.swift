@@ -15,25 +15,24 @@ struct Day10: DayCommand {
     var puzzleInputPath: String
     
     func run() throws {
-        let adapters: [Int] = try readLines().compactMap({ Int($0) })
+        let adapters: [Int] = try readLines().compactMap({ Int($0) }).sorted()
+        let allAdapters = [0] + adapters + [adapters.last! + 3]
         
-        let part1Solution = part1(using: adapters)
+        let part1Solution = part1(using: allAdapters)
         printTitle("Title 1", level: .title1)
         print("Product:", part1Solution, terminator: "\n\n")
         
-        let part2Solution = part2(using: adapters)
+        let part2Solution = part2(using: allAdapters)
         printTitle("Title 2", level: .title1)
         print("Count:", part2Solution)
     }
     
     func part1(using adapters: [Int]) -> Int {
         var countByJoltDifference = [Int: Int]()
-        let sortedAdapters = adapters.sorted()
-        let chain = [0] + sortedAdapters + [sortedAdapters.last! + 3]
         
-        for index in chain.indices.dropLast() {
-            let currentRating = chain[index]
-            let nextRating = chain[index + 1]
+        for index in adapters.indices.dropLast() {
+            let currentRating = adapters[index]
+            let nextRating = adapters[index + 1]
             let difference = nextRating - currentRating
             
             countByJoltDifference[difference, default: 0] += 1
@@ -43,19 +42,17 @@ struct Day10: DayCommand {
     }
     
     func part2(using adapters: [Int]) -> Int {
-        let sortedAdapters = adapters.sorted()
-        let allAdapters = [0] + sortedAdapters + [sortedAdapters.last!]
+        var pathCountByDestination: [Int: Int] = [0: 1]
         
-        var pathCountPerEnd: [Int: Int] = [0: 1]
-        for end in allAdapters.dropFirst() {
+        for destination in adapters.dropFirst() {
             let predecessorOffset = 1 ... 3
-            pathCountPerEnd[end] = predecessorOffset
+            pathCountByDestination[destination] = predecessorOffset
                 .reduce(into: 0, { count, offset in
-                    count += pathCountPerEnd[end - offset, default: 0]
+                    count += pathCountByDestination[destination - offset, default: 0]
                 })
         }
         
-        return pathCountPerEnd[allAdapters.last!, default: 0]
+        return pathCountByDestination[adapters.last!, default: 0]
     }
 }
 
