@@ -41,8 +41,8 @@ struct Day10: DayCommand {
         return countByJoltDifference[1, default: 0] * countByJoltDifference[3, default: 0]
     }
     
-    func part2(using adapters: [Int]) -> Int {
-        var pathCountByDestination: [Int: Int] = [0: 1]
+    func part2(using adapters: [Int]) -> Int64 {
+        var pathCountByDestination: [Int: Int64] = [0: 1]
         
         for destination in adapters.dropFirst() {
             let predecessorOffset = 1 ... 3
