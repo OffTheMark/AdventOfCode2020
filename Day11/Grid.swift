@@ -79,25 +79,26 @@ struct Grid {
     func nextAccordingToPart2() -> Grid {
         var newGrid = self
         
-        for coordinate in seats {
-            let square = contents[coordinate, default: .floor]
-            let otherSeats = seats.subtracting([coordinate])
+        for seat in seats {
+            let square = contents[seat, default: .floor]
+            let otherSeats = seats.subtracting([seat])
             
-            let numberOfVisibleOccupiedSeats = Vector.allAdjacentVectors.count(where: { vector in
-                for multiplier in 1... {
-                    let searchPoint = coordinate + multiplier * vector
-                    
-                    if !contains(searchPoint) {
-                        return false
+            let numberOfVisibleOccupiedSeats = Vector.allAdjacentVectors
+                .count(where: { vector in
+                    for multiplier in 1... {
+                        let searchPoint = seat + multiplier * vector
+                        
+                        if !contains(searchPoint) {
+                            return false
+                        }
+                        
+                        if otherSeats.contains(searchPoint) {
+                            return contents[searchPoint] == .occupiedSeat
+                        }
                     }
                     
-                    if otherSeats.contains(searchPoint) {
-                        return contents[searchPoint] == .occupiedSeat
-                    }
-                }
-                
-                return false
-            })
+                    return false
+                })
             
             let newSquare: Square
             switch (square, numberOfVisibleOccupiedSeats) {
