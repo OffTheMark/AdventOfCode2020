@@ -45,7 +45,7 @@ struct Grid {
     }
     
     func contains(_ coordinate: Coordinate) -> Bool {
-        (0 ..< size.width).contains(coordinate.y) && (0 ..< size.height).contains(coordinate.y)
+        (0 ..< size.width).contains(coordinate.x) && (0 ..< size.height).contains(coordinate.y)
     }
     
     func nextAccordingToPart1() -> Grid {
