@@ -44,6 +44,10 @@ struct Grid {
         self.variableCoordinates = variableCoordinates
     }
     
+    func contains(_ coordinate: Coordinate) -> Bool {
+        (0 ..< size.width).contains(coordinate.y) && (0 ..< size.height).contains(coordinate.y)
+    }
+    
     func nextAccordingToPart1() -> Grid {
         var newGrid = self
         
@@ -60,6 +64,47 @@ struct Grid {
                 newSquare = .occupiedSeat
                 
             case (.occupiedSeat, 4...):
+                newSquare = .emptySeat
+                
+            default:
+                newSquare = square
+            }
+            
+            newGrid.contents[coordinate] = newSquare
+        }
+        
+        return newGrid
+    }
+    
+    func nextAccordingToPart2() -> Grid {
+        var newGrid = self
+        
+        let knownOccupiedSeats = Set(variableCoordinates.filter({ contents[$0] == .occupiedSeat }))
+        
+        for coordinate in variableCoordinates {
+            let square = contents[coordinate, default: .floor]
+            let numberOfVisibleOccupiedSeats = Coordinate.allDirections.count(where: { direction in
+                for multiplier in 1... {
+                    let newCoordinate = coordinate + multiplier * direction
+                    
+                    guard self.contains(newCoordinate) else {
+                        return false
+                    }
+                    
+                    if knownOccupiedSeats.contains(newCoordinate) {
+                        return true
+                    }
+                }
+                
+                return false
+            })
+            
+            let newSquare: Square
+            switch (square, numberOfVisibleOccupiedSeats) {
+            case (.emptySeat, 0):
+                newSquare = .occupiedSeat
+                
+            case (.occupiedSeat, 5...):
                 newSquare = .emptySeat
                 
             default:
@@ -93,7 +138,20 @@ struct Coordinate {
     var y: Int
     
     var adjacentCoordinates: [Coordinate] {
-        return Direction.allDirections.map({ self + $0 })
+        return Self.allDirections.map({ self + $0 })
+    }
+    
+    static let north = Coordinate(x: 0, y: -1)
+    static let northEast = Coordinate(x: 1, y: -1)
+    static let east = Coordinate(x: 1, y: 0)
+    static let southEast = Coordinate(x: 1, y: 1)
+    static let south = Coordinate(x: 0, y: 1)
+    static let southWest = Coordinate(x: -1, y: 1)
+    static let west = Coordinate(x: -1, y: 0)
+    static let northWest = Coordinate(x: -1, y: -1)
+    
+    static var allDirections: [Coordinate] {
+        [.north, .northEast, .east, .southEast, .south, .southWest, .west, .northWest]
     }
 }
 
@@ -102,30 +160,11 @@ extension Coordinate: Equatable {}
 extension Coordinate: Hashable {}
 
 extension Coordinate {
-    static func + (lhs: Coordinate, rhs: Direction) -> Coordinate {
-        return Coordinate(x: lhs.x + rhs.deltaX, y: lhs.y + rhs.deltaY)
-    }
-}
-
-struct Direction {
-    let deltaX: Int
-    let deltaY: Int
-    
-    private init(deltaX: Int, deltaY: Int) {
-        self.deltaX = deltaX
-        self.deltaY = deltaY
+    static func + (lhs: Coordinate, rhs: Coordinate) -> Coordinate {
+        Coordinate(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
     
-    static let north = Direction(deltaX: 0, deltaY: -1)
-    static let northEast = Direction(deltaX: 1, deltaY: -1)
-    static let east = Direction(deltaX: 1, deltaY: 0)
-    static let southEast = Direction(deltaX: 1, deltaY: 1)
-    static let south = Direction(deltaX: 0, deltaY: 1)
-    static let southWest = Direction(deltaX: -1, deltaY: 1)
-    static let west = Direction(deltaX: -1, deltaY: 0)
-    static let northWest = Direction(deltaX: -1, deltaY: -1)
-    
-    static var allDirections: [Direction] {
-        [.north, .northEast, .east, .southEast, .south, .southWest, .west, .northWest]
+    static func * (lhs: Int, rhs: Coordinate) -> Coordinate {
+        Coordinate(x: lhs * rhs.x, y: lhs & rhs.y)
     }
 }
