@@ -79,24 +79,29 @@ struct Grid {
     func nextAccordingToPart2() -> Grid {
         var newGrid = self
         
-        let knownOccupiedSeats = Set(variableCoordinates.filter({ contents[$0] == .occupiedSeat }))
-        
         for coordinate in variableCoordinates {
             let square = contents[coordinate, default: .floor]
-            let numberOfVisibleOccupiedSeats = Coordinate.allDirections.count(where: { direction in
-                for multiplier in 1... {
-                    let newCoordinate = coordinate + multiplier * direction
-                    
-                    guard self.contains(newCoordinate) else {
-                        return false
-                    }
-                    
-                    if knownOccupiedSeats.contains(newCoordinate) {
-                        return true
-                    }
+            let numberOfVisibleOccupiedSeats = Vector.allAdjacentVectors.count(where: { vector in
+                let direction = vector.direction
+                
+                let targetsAndVectors: [(target: Coordinate, vector: Vector)] = variableCoordinates
+                    .compactMap({ target in
+                        let vector = coordinate.vector(to: target)
+                        guard vector.direction == direction else {
+                            return nil
+                        }
+                        
+                        return (target, vector)
+                    })
+                let closestOrNil = targetsAndVectors.min(by: { (first, second) in
+                    return first.vector.norm < second.vector.norm
+                })
+                
+                guard let closest = closestOrNil else {
+                    return false
                 }
                 
-                return false
+                return contents[closest.target] == .occupiedSeat
             })
             
             let newSquare: Square
@@ -138,20 +143,11 @@ struct Coordinate {
     var y: Int
     
     var adjacentCoordinates: [Coordinate] {
-        return Self.allDirections.map({ self + $0 })
+        return Vector.allAdjacentVectors.map({ self + $0 })
     }
     
-    static let north = Coordinate(x: 0, y: -1)
-    static let northEast = Coordinate(x: 1, y: -1)
-    static let east = Coordinate(x: 1, y: 0)
-    static let southEast = Coordinate(x: 1, y: 1)
-    static let south = Coordinate(x: 0, y: 1)
-    static let southWest = Coordinate(x: -1, y: 1)
-    static let west = Coordinate(x: -1, y: 0)
-    static let northWest = Coordinate(x: -1, y: -1)
-    
-    static var allDirections: [Coordinate] {
-        [.north, .northEast, .east, .southEast, .south, .southWest, .west, .northWest]
+    func vector(to other: Coordinate) -> Vector {
+        Vector(x: other.x - x, y: other.y - y)
     }
 }
 
@@ -160,11 +156,43 @@ extension Coordinate: Equatable {}
 extension Coordinate: Hashable {}
 
 extension Coordinate {
-    static func + (lhs: Coordinate, rhs: Coordinate) -> Coordinate {
+    static func + (lhs: Coordinate, rhs: Vector) -> Coordinate {
         Coordinate(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
     
     static func * (lhs: Int, rhs: Coordinate) -> Coordinate {
         Coordinate(x: lhs * rhs.x, y: lhs & rhs.y)
+    }
+}
+
+struct Vector {
+    var x: Int
+    var y: Int
+    
+    var norm: Double {
+        sqrt(pow(Double(y), 2) + pow(Double(x), 2))
+    }
+    
+    var direction: Double {
+        atan(Double(y) / Double(x))
+    }
+    
+    static let north = Vector(x: 0, y: -1)
+    static let northEast = Vector(x: 1, y: -1)
+    static let east = Vector(x: 1, y: 0)
+    static let southEast = Vector(x: 1, y: 1)
+    static let south = Vector(x: 0, y: 1)
+    static let southWest = Vector(x: -1, y: 1)
+    static let west = Vector(x: -1, y: 0)
+    static let northWest = Vector(x: -1, y: -1)
+    
+    static var allAdjacentVectors: [Vector] {
+        [.north, .northEast, .east, .southEast, .south, .southWest, .west, .northWest]
+    }
+}
+
+extension Vector {
+    static func * (lhs: Int, rhs: Vector) -> Vector {
+        Vector(x: lhs * rhs.x, y: lhs & rhs.y)
     }
 }
