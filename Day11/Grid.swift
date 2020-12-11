@@ -100,19 +100,16 @@ struct Grid {
                     return false
                 })
             
-            let newSquare: Square
             switch (square, numberOfVisibleOccupiedSeats) {
             case (.emptySeat, 0):
-                newSquare = .occupiedSeat
+                newGrid.contents[seat] = .occupiedSeat
                 
             case (.occupiedSeat, 5...):
-                newSquare = .emptySeat
+                newGrid.contents[seat] = .emptySeat
                 
             default:
-                newSquare = square
+                break
             }
-            
-            newGrid.contents[coordinate] = newSquare
         }
         
         return newGrid
