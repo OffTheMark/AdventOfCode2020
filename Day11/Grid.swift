@@ -44,8 +44,8 @@ struct Grid {
         self.seats = seats
     }
     
-    func contains(_ coordinate: Point) -> Bool {
-        (0 ..< size.width).contains(coordinate.x) && (0 ..< size.height).contains(coordinate.y)
+    func contains(_ point: Point) -> Bool {
+        (0 ..< size.width).contains(point.x) && (0 ..< size.height).contains(point.y)
     }
     
     func nextAccordingToPart1() -> Grid {
@@ -54,8 +54,8 @@ struct Grid {
         for seat in seats {
             let square = contents[seat, default: .floor]
             let numberOfAdjacentOccupiedSeats = seat.adjacentPoints
-                .count(where: { adjacentCoordinate in
-                    contents[adjacentCoordinate] == .occupiedSeat
+                .count(where: { adjacentPoint in
+                    contents[adjacentPoint] == .occupiedSeat
                 })
             
             let newSquare: Square
