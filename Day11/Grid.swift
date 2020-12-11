@@ -79,15 +79,21 @@ struct Grid {
     func nextAccordingToPart2() -> Grid {
         var newGrid = self
         
-        for coordinate in variableCoordinates {
-            let square = contents[coordinate, default: .floor]
+        let squareByVariableCoordinate: [Coordinate: Square] = variableCoordinates
+            .reduce(into: [:], { result, coordinate in
+                result[coordinate] = contents[coordinate]
+            })
+        
+        for (coordinate, square) in squareByVariableCoordinate {
             let numberOfVisibleOccupiedSeats = Vector.allAdjacentVectors.count(where: { vector in
                 let direction = vector.direction
                 
                 let targetsAndVectors: [(target: Coordinate, vector: Vector)] = variableCoordinates
+                    .subtracting([coordinate])
                     .compactMap({ target in
                         let vector = coordinate.vector(to: target)
-                        guard vector.direction == direction else {
+                        let vectorDirection = vector.direction
+                        guard vectorDirection.sign == direction.sign, vectorDirection.magnitude == direction.magnitude else {
                             return nil
                         }
                         
@@ -101,7 +107,7 @@ struct Grid {
                     return false
                 }
                 
-                return contents[closest.target] == .occupiedSeat
+                return squareByVariableCoordinate[closest.target] == .occupiedSeat
             })
             
             let newSquare: Square
