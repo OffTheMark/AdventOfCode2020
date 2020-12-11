@@ -8,13 +8,13 @@
 import Foundation
 
 struct Grid {
-    private(set) var contents: [Coordinate: Square]
+    private(set) var contents: [Point: Square]
     let size: Size
-    let variableCoordinates: Set<Coordinate>
+    let seats: Set<Point>
     
     init(lines: [String]) {
-        var contents = [Coordinate: Square]()
-        var variableCoordinates = Set<Coordinate>()
+        var contents = [Point: Square]()
+        var seats = Set<Point>()
         let height = lines.count
         var width = 0
         
@@ -22,14 +22,14 @@ struct Grid {
             width = max(width, elements.count)
             
             for (column, character) in elements.enumerated() {
-                let coordinate = Coordinate(x: column, y: line)
+                let coordinate = Point(x: column, y: line)
                 guard let square = Square(rawValue: character) else {
                     continue
                 }
                 
                 switch square {
                 case .emptySeat, .occupiedSeat:
-                    variableCoordinates.insert(coordinate)
+                    seats.insert(coordinate)
                     
                 case .floor:
                     break
@@ -41,19 +41,19 @@ struct Grid {
         
         self.size = Size(width: width, height: height)
         self.contents = contents
-        self.variableCoordinates = variableCoordinates
+        self.seats = seats
     }
     
-    func contains(_ coordinate: Coordinate) -> Bool {
+    func contains(_ coordinate: Point) -> Bool {
         (0 ..< size.width).contains(coordinate.x) && (0 ..< size.height).contains(coordinate.y)
     }
     
     func nextAccordingToPart1() -> Grid {
         var newGrid = self
         
-        for coordinate in variableCoordinates {
-            let square = contents[coordinate, default: .floor]
-            let numberOfAdjacentOccupiedSeats = coordinate.adjacentCoordinates
+        for seat in seats {
+            let square = contents[seat, default: .floor]
+            let numberOfAdjacentOccupiedSeats = seat.adjacentPoints
                 .count(where: { adjacentCoordinate in
                     contents[adjacentCoordinate] == .occupiedSeat
                 })
@@ -70,7 +70,7 @@ struct Grid {
                 newSquare = square
             }
             
-            newGrid.contents[coordinate] = newSquare
+            newGrid.contents[seat] = newSquare
         }
         
         return newGrid
@@ -79,35 +79,24 @@ struct Grid {
     func nextAccordingToPart2() -> Grid {
         var newGrid = self
         
-        let squareByVariableCoordinate: [Coordinate: Square] = variableCoordinates
-            .reduce(into: [:], { result, coordinate in
-                result[coordinate] = contents[coordinate]
-            })
-        
-        for (coordinate, square) in squareByVariableCoordinate {
+        for coordinate in seats {
+            let square = contents[coordinate, default: .floor]
+            let otherSeats = seats.subtracting([coordinate])
+            
             let numberOfVisibleOccupiedSeats = Vector.allAdjacentVectors.count(where: { vector in
-                let direction = vector.direction
-                
-                let targetsAndVectors: [(target: Coordinate, vector: Vector)] = variableCoordinates
-                    .subtracting([coordinate])
-                    .compactMap({ target in
-                        let vector = coordinate.vector(to: target)
-                        let vectorDirection = vector.direction
-                        guard vectorDirection.sign == direction.sign, vectorDirection.magnitude == direction.magnitude else {
-                            return nil
-                        }
-                        
-                        return (target, vector)
-                    })
-                let closestOrNil = targetsAndVectors.min(by: { (first, second) in
-                    return first.vector.norm < second.vector.norm
-                })
-                
-                guard let closest = closestOrNil else {
-                    return false
+                for multiplier in 1... {
+                    let searchPoint = coordinate + multiplier * vector
+                    
+                    if !contains(searchPoint) {
+                        return false
+                    }
+                    
+                    if otherSeats.contains(searchPoint) {
+                        return contents[searchPoint] == .occupiedSeat
+                    }
                 }
                 
-                return squareByVariableCoordinate[closest.target] == .occupiedSeat
+                return false
             })
             
             let newSquare: Square
@@ -144,30 +133,26 @@ struct Size {
 
 extension Size: Equatable {}
 
-struct Coordinate {
+struct Point {
     var x: Int
     var y: Int
     
-    var adjacentCoordinates: [Coordinate] {
+    var adjacentPoints: [Point] {
         return Vector.allAdjacentVectors.map({ self + $0 })
     }
     
-    func vector(to other: Coordinate) -> Vector {
+    func vector(to other: Point) -> Vector {
         Vector(x: other.x - x, y: other.y - y)
     }
 }
 
-extension Coordinate: Equatable {}
+extension Point: Equatable {}
 
-extension Coordinate: Hashable {}
+extension Point: Hashable {}
 
-extension Coordinate {
-    static func + (lhs: Coordinate, rhs: Vector) -> Coordinate {
-        Coordinate(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-    }
-    
-    static func * (lhs: Int, rhs: Coordinate) -> Coordinate {
-        Coordinate(x: lhs * rhs.x, y: lhs & rhs.y)
+extension Point {
+    static func + (lhs: Point, rhs: Vector) -> Point {
+        Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
 }
 
@@ -199,6 +184,6 @@ struct Vector {
 
 extension Vector {
     static func * (lhs: Int, rhs: Vector) -> Vector {
-        Vector(x: lhs * rhs.x, y: lhs & rhs.y)
+        Vector(x: lhs * rhs.x, y: lhs * rhs.y)
     }
 }
