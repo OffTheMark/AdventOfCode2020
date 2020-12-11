@@ -24,10 +24,10 @@ struct Day11: DayCommand {
     
     func part1(with grid: Grid) -> Int {
         var previous = grid
-        var current = grid.next()
+        var current = grid.nextAccordingToPart1()
         
         while previous != current {
-            let next = current.next()
+            let next = current.nextAccordingToPart1()
             previous = current
             current = next
         }

@@ -44,7 +44,7 @@ struct Grid {
         self.variableCoordinates = variableCoordinates
     }
     
-    func next() -> Grid {
+    func nextAccordingToPart1() -> Grid {
         var newGrid = self
         
         for coordinate in variableCoordinates {
