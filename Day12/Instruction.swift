@@ -6,61 +6,11 @@
 //
 
 import Foundation
+import CoreGraphics
 
-struct Point {
-    var x: Double
-    var y: Double
-    
-    func manhattanDistance(to other: Point) -> Double {
-        return abs(other.x - x) + abs(other.y - y)
-    }
-    
-    mutating func rotate(by angle: Measurement<UnitAngle>) {
-        let radians = angle.converted(to: .radians)
-        
-        let sine = sin(radians.value)
-        let cosine = cos(radians.value)
-        let newX = cosine * x - sine * y
-        let newY = sine * x + cosine * y
-        
-        self.x = newX
-        self.y = newY
-    }
-    
-    static let zero = Point(x: 0, y: 0)
-}
-
-extension Point {
-    static func += (lhs: inout Point, rhs: Point) {
-        lhs.x += rhs.x
-        lhs.y += rhs.y
-    }
-    
-    static func * (lhs: Double, rhs: Point) -> Point {
-        Point(x: lhs * rhs.x, y: lhs * rhs.y)
-    }
-}
-
-enum Direction {
-    case north
-    case east
-    case south
-    case west
-    
-    var point: Point {
-        switch self {
-        case .north:
-            return Point(x: 0, y: -1)
-            
-        case .east:
-            return Point(x: 1, y: 0)
-        
-        case .south:
-            return Point(x: 0, y: 1)
-            
-        case .west:
-            return Point(x: -1, y: 0)
-        }
+extension CGPoint {
+    func manhattanDistance(to other: CGPoint) -> CGFloat {
+        abs(other.y - y) + abs(other.x - x)
     }
 }
 
@@ -76,7 +26,7 @@ enum Action: Character {
 
 struct Instruction {
     let action: Action
-    let value: Double
+    let value: CGFloat
 }
 
 extension Instruction {
@@ -91,11 +41,11 @@ extension Instruction {
             return nil
         }
         
-        guard let value = Double(rawValue) else {
+        guard let value = Float(rawValue) else {
             return nil
         }
         
         self.action = action
-        self.value = value
+        self.value = CGFloat(value)
     }
 }

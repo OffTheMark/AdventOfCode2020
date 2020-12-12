@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import AdventOfCodeUtilities
 import ArgumentParser
 
@@ -25,71 +26,102 @@ struct Day12: DayCommand {
         print("Distance:", String(format: "%.0f", part2Solution))
     }
     
-    func part1(using instructions: [Instruction]) -> Double {
-        let initialPosition: Point = .zero
+    func part1(using instructions: [Instruction]) -> CGFloat {
+        let initialPosition: CGPoint = .zero
         var position = initialPosition
-        var direction = Direction.east.point
+        var direction = CGPoint(x: 1, y: 0)
         
         for instruction in instructions {
             switch instruction.action {
             case .north:
-                let delta = instruction.value * Direction.north.point
-                position += delta
+                let transform = CGAffineTransform(translationX: 0, y: -instruction.value)
+                position = position.applying(transform)
                 
             case .south:
-                let delta = instruction.value * Direction.south.point
-                position += delta
+                let transform = CGAffineTransform(translationX: 0, y: instruction.value)
+                position = position.applying(transform)
                 
             case .east:
-                let delta = instruction.value * Direction.east.point
-                position += delta
-            
+                let transform = CGAffineTransform(translationX: instruction.value, y: 0)
+                position = position.applying(transform)
+                
             case .west:
-                let delta = instruction.value * Direction.west.point
-                position += delta
+                let transform = CGAffineTransform(translationX: -instruction.value, y: 0)
+                position = position.applying(transform)
                 
             case .left:
-                direction.rotate(by: .init(value: -instruction.value, unit: .degrees))
+                var angle = Measurement<UnitAngle>(value: Double(-instruction.value), unit: .degrees)
+                angle.convert(to: .radians)
+                let radians = CGFloat(angle.value)
+                let rotation = CGAffineTransform(rotationAngle: radians)
+                
+                direction = direction.applying(rotation)
                 
             case .right:
-                direction.rotate(by: .init(value: instruction.value, unit: .degrees))
+                var angle = Measurement<UnitAngle>(value: Double(instruction.value), unit: .degrees)
+                angle.convert(to: .radians)
+                let radians = CGFloat(angle.value)
+                let rotation = CGAffineTransform(rotationAngle: radians)
+                
+                direction = direction.applying(rotation)
                 
             case .forward:
-                let delta = instruction.value * direction
-                position += delta
+                let translation = CGAffineTransform(
+                    translationX: instruction.value * direction.x,
+                    y: instruction.value * direction.y
+                )
+                position = position.applying(translation)
             }
         }
         
         return position.manhattanDistance(to: initialPosition)
     }
     
-    func part2(using instructions: [Instruction]) -> Double {
-        let initialPosition: Point = .zero
+    func part2(using instructions: [Instruction]) -> CGFloat {
+        let initialPosition: CGPoint = .zero
         var position = initialPosition
-        var waypointPosition = Point(x: 10, y: -1)
+        var waypointPosition = CGPoint(x: 10, y: -1)
         
         for instruction in instructions {
             switch instruction.action {
             case .north:
-                waypointPosition.y -= instruction.value
+                let translation = CGAffineTransform(translationX: 0, y: -instruction.value)
+                waypointPosition = waypointPosition.applying(translation)
                 
             case .south:
-                waypointPosition.y += instruction.value
+                let translation = CGAffineTransform(translationX: 0, y: instruction.value)
+                waypointPosition = waypointPosition.applying(translation)
                 
             case .east:
-                waypointPosition.x += instruction.value
+                let translation = CGAffineTransform(translationX: instruction.value, y: 0)
+                waypointPosition = waypointPosition.applying(translation)
                 
             case .west:
-                waypointPosition.x -= instruction.value
+                let translation = CGAffineTransform(translationX: -instruction.value, y: 0)
+                waypointPosition = waypointPosition.applying(translation)
                 
             case .forward:
-                position += instruction.value * waypointPosition
+                let transform = CGAffineTransform(
+                    translationX: instruction.value * waypointPosition.x,
+                    y: instruction.value * waypointPosition.y
+                )
+                position = position.applying(transform)
                 
             case .left:
-                waypointPosition.rotate(by: .init(value: -instruction.value, unit: .degrees))
+                var angle = Measurement<UnitAngle>(value: Double(-instruction.value), unit: .degrees)
+                angle.convert(to: .radians)
+                let radians = CGFloat(angle.value)
+                let rotation = CGAffineTransform(rotationAngle: radians)
+                
+                waypointPosition = waypointPosition.applying(rotation)
                 
             case .right:
-                waypointPosition.rotate(by: .init(value: instruction.value, unit: .degrees))
+                var angle = Measurement<UnitAngle>(value: Double(instruction.value), unit: .degrees)
+                angle.convert(to: .radians)
+                let radians = CGFloat(angle.value)
+                let rotation = CGAffineTransform(rotationAngle: radians)
+                
+                waypointPosition = waypointPosition.applying(rotation)
             }
         }
         
