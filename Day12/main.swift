@@ -18,48 +18,84 @@ struct Day12: DayCommand {
         
         let part1Solution = part1(using: instructions)
         printTitle("Part 1", level: .title1)
-        print("Distance:", part1Solution, terminator: "\n\n")
+        print("Distance:", String(format: "%.0f", part1Solution), terminator: "\n\n")
         
-        
+        let part2Solution = part2(using: instructions)
+        printTitle("Part 2", level: .title1)
+        print("Distance:", String(format: "%.0f", part2Solution))
     }
     
-    func part1(using instructions: [Instruction]) -> Int {
+    func part1(using instructions: [Instruction]) -> Double {
         let initialPosition: Point = .zero
-        var ship = Ship(position: initialPosition, direction: .east)
+        var position = initialPosition
+        var direction: Direction = .east
         
         for instruction in instructions {
             switch instruction.action {
             case .north:
                 let delta = instruction.value * Direction.north.point
-                ship.position += delta
+                position += delta
                 
             case .south:
                 let delta = instruction.value * Direction.south.point
-                ship.position += delta
+                position += delta
                 
             case .east:
                 let delta = instruction.value * Direction.east.point
-                ship.position += delta
+                position += delta
             
             case .west:
                 let delta = instruction.value * Direction.west.point
-                ship.position += delta
+                position += delta
                 
             case .left:
-                let numberOfTimes = instruction.value / 90
-                ship.direction.turnLeft(numberOfTimes: numberOfTimes)
+                let numberOfTimes = Int(instruction.value) / 90
+                direction.turnLeft(numberOfTimes: numberOfTimes)
                 
             case .right:
-                let numberOfTimes = instruction.value / 90
-                ship.direction.turnRight(numberOfTimes: numberOfTimes)
+                let numberOfTimes = Int(instruction.value) / 90
+                direction.turnRight(numberOfTimes: numberOfTimes)
                 
             case .forward:
-                let delta = instruction.value * ship.direction.point
-                ship.position += delta
+                let delta = instruction.value * direction.point
+                position += delta
             }
         }
         
-        return ship.position.manhattanDistance(to: initialPosition)
+        return position.manhattanDistance(to: initialPosition)
+    }
+    
+    func part2(using instructions: [Instruction]) -> Double {
+        let initialPosition: Point = .zero
+        var position = initialPosition
+        var waypointPosition = Point(x: 10, y: -1)
+        
+        for instruction in instructions {
+            switch instruction.action {
+            case .north:
+                waypointPosition.y -= instruction.value
+                
+            case .south:
+                waypointPosition.y += instruction.value
+                
+            case .east:
+                waypointPosition.x += instruction.value
+                
+            case .west:
+                waypointPosition.x -= instruction.value
+                
+            case .forward:
+                position += instruction.value * waypointPosition
+                
+            case .left:
+                waypointPosition.rotate(by: -instruction.value)
+                
+            case .right:
+                waypointPosition.rotate(by: instruction.value)
+            }
+        }
+        
+        return position.manhattanDistance(to: initialPosition)
     }
 }
 

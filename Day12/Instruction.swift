@@ -7,17 +7,25 @@
 
 import Foundation
 
-struct Ship {
-    var position: Point
-    var direction: Direction
-}
-
 struct Point {
-    var x: Int
-    var y: Int
+    var x: Double
+    var y: Double
     
-    func manhattanDistance(to other: Point) -> Int {
+    func manhattanDistance(to other: Point) -> Double {
         return abs(other.x - x) + abs(other.y - y)
+    }
+    
+    mutating func rotate(by degrees: Double) {
+        var angle = Measurement<UnitAngle>(value: degrees, unit: .degrees)
+        angle.convert(to: .radians)
+        
+        let sine = sin(angle.value)
+        let cosine = cos(angle.value)
+        let newX = cosine * x - sine * y
+        let newY = sine * x + cosine * y
+        
+        self.x = newX
+        self.y = newY
     }
     
     static let zero = Point(x: 0, y: 0)
@@ -29,7 +37,7 @@ extension Point {
         lhs.y += rhs.y
     }
     
-    static func * (lhs: Int, rhs: Point) -> Point {
+    static func * (lhs: Double, rhs: Point) -> Point {
         Point(x: lhs * rhs.x, y: lhs * rhs.y)
     }
 }
@@ -105,7 +113,7 @@ enum Action: Character {
 
 struct Instruction {
     let action: Action
-    let value: Int
+    let value: Double
 }
 
 extension Instruction {
@@ -120,7 +128,7 @@ extension Instruction {
             return nil
         }
         
-        guard let value = Int(rawValue) else {
+        guard let value = Double(rawValue) else {
             return nil
         }
         
