@@ -15,12 +15,11 @@ struct Point {
         return abs(other.x - x) + abs(other.y - y)
     }
     
-    mutating func rotate(by degrees: Double) {
-        var angle = Measurement<UnitAngle>(value: degrees, unit: .degrees)
-        angle.convert(to: .radians)
+    mutating func rotate(by angle: Measurement<UnitAngle>) {
+        let radians = angle.converted(to: .radians)
         
-        let sine = sin(angle.value)
-        let cosine = cos(angle.value)
+        let sine = sin(radians.value)
+        let cosine = cos(radians.value)
         let newX = cosine * x - sine * y
         let newY = sine * x + cosine * y
         
@@ -61,42 +60,6 @@ enum Direction {
             
         case .west:
             return Point(x: -1, y: 0)
-        }
-    }
-    
-    mutating func turnLeft(numberOfTimes: Int = 1) {
-        for _ in 0 ..< numberOfTimes {
-            switch self {
-            case .north:
-                self = .west
-                
-            case .east:
-                self = .north
-                
-            case .south:
-                self = .east
-                
-            case .west:
-                self = .south
-            }
-        }
-    }
-    
-    mutating func turnRight(numberOfTimes: Int = 1) {
-        for _ in 0 ..< numberOfTimes {
-            switch self {
-            case .north:
-                self = .east
-                
-            case .east:
-                self = .south
-                
-            case .south:
-                self = .west
-                
-            case .west:
-                self = .north
-            }
         }
     }
 }

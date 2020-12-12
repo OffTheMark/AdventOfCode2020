@@ -28,7 +28,7 @@ struct Day12: DayCommand {
     func part1(using instructions: [Instruction]) -> Double {
         let initialPosition: Point = .zero
         var position = initialPosition
-        var direction: Direction = .east
+        var direction = Direction.east.point
         
         for instruction in instructions {
             switch instruction.action {
@@ -49,15 +49,13 @@ struct Day12: DayCommand {
                 position += delta
                 
             case .left:
-                let numberOfTimes = Int(instruction.value) / 90
-                direction.turnLeft(numberOfTimes: numberOfTimes)
+                direction.rotate(by: .init(value: -instruction.value, unit: .degrees))
                 
             case .right:
-                let numberOfTimes = Int(instruction.value) / 90
-                direction.turnRight(numberOfTimes: numberOfTimes)
+                direction.rotate(by: .init(value: instruction.value, unit: .degrees))
                 
             case .forward:
-                let delta = instruction.value * direction.point
+                let delta = instruction.value * direction
                 position += delta
             }
         }
@@ -88,10 +86,10 @@ struct Day12: DayCommand {
                 position += instruction.value * waypointPosition
                 
             case .left:
-                waypointPosition.rotate(by: -instruction.value)
+                waypointPosition.rotate(by: .init(value: -instruction.value, unit: .degrees))
                 
             case .right:
-                waypointPosition.rotate(by: instruction.value)
+                waypointPosition.rotate(by: .init(value: instruction.value, unit: .degrees))
             }
         }
         
