@@ -106,3 +106,23 @@ struct Day12: DayCommand {
 }
 
 Day12.main()
+
+let ninetyDegrees = Measurement<UnitAngle>(value: 90, unit: .degrees)
+
+let myPoint = Point.zero
+let myTransform = AffineTransform.identity
+    .translatedBy(x: 1, y: 0)
+    .rotated(by: ninetyDegrees)
+    .translatedBy(x: -1, y: 0)
+
+print(myTransform)
+print(myPoint.applying(myTransform))
+
+let cgPoint = CGPoint.zero
+let cgTransform = CGAffineTransform.identity
+    .translatedBy(x: 1, y: 0)
+    .rotated(by: CGFloat(ninetyDegrees.converted(to: .radians).value))
+    .translatedBy(x: -1, y: 0)
+
+print(cgTransform)
+print(cgPoint.applying(cgTransform))

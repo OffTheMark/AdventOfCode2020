@@ -51,6 +51,29 @@ struct AffineTransform {
     var tx: Double
     var ty: Double
     
+    func concatenating(_ other: AffineTransform) -> AffineTransform {
+        AffineTransform(
+            a: a * other.a + c * other.b,
+            b: b * other.a + d * other.b,
+            c: a * other.c + c * other.d,
+            d: b * other.c + d * other.d,
+            tx: a * other.tx + c * other.ty + tx * 1,
+            ty: b * other.tx + d * other.ty + ty * 1
+        )
+    }
+    
+    func rotated(by angle: Double) -> AffineTransform {
+        concatenating(.rotation(by: angle))
+    }
+    
+    func rotated(by angle: Measurement<UnitAngle>) -> AffineTransform {
+        concatenating(.rotation(by: angle))
+    }
+    
+    func translatedBy(x: Double, y: Double) -> AffineTransform {
+        concatenating(.translation(x: x, y: y))
+    }
+    
     static let identity = AffineTransform(
         a: 1,
         b: 0,
