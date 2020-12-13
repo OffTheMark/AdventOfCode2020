@@ -13,6 +13,7 @@
 		340D646D2585057800915C16 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D646C2585057800915C16 /* main.swift */; };
 		340D647E2585057E00915C16 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 340D647D2585057E00915C16 /* AdventOfCodeUtilities */; };
 		340D648D2585075000915C16 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D648C2585075000915C16 /* Instruction.swift */; };
+		340D64A72585B6B700915C16 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D64A62585B6B700915C16 /* Point.swift */; };
 		3432BC802576844800005E7D /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3432BC7F2576844800005E7D /* Algorithms */; };
 		3432BC892576B96F00005E7D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BC882576B96F00005E7D /* main.swift */; };
 		3432BC992577CF7F00005E7D /* PasswordPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BC982577CF7F00005E7D /* PasswordPolicy.swift */; };
@@ -164,6 +165,7 @@
 		340D646C2585057800915C16 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		340D648B2585059900915C16 /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
 		340D648C2585075000915C16 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		340D64A62585B6B700915C16 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		3432BC862576B96F00005E7D /* Day2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day2; sourceTree = BUILT_PRODUCTS_DIR; };
 		3432BC882576B96F00005E7D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3432BC8F2576B9A700005E7D /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				340D646C2585057800915C16 /* main.swift */,
 				340D648B2585059900915C16 /* puzzle_input.txt */,
 				340D648C2585075000915C16 /* Instruction.swift */,
+				340D64A62585B6B700915C16 /* Point.swift */,
 			);
 			path = Day12;
 			sourceTree = "<group>";
@@ -810,6 +813,7 @@
 			files = (
 				340D648D2585075000915C16 /* Instruction.swift in Sources */,
 				340D646D2585057800915C16 /* main.swift in Sources */,
+				340D64A72585B6B700915C16 /* Point.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,13 +6,6 @@
 //
 
 import Foundation
-import CoreGraphics
-
-extension CGPoint {
-    func manhattanDistance(to other: CGPoint) -> CGFloat {
-        abs(other.y - y) + abs(other.x - x)
-    }
-}
 
 enum Action: Character {
     case north = "N"
@@ -26,7 +19,7 @@ enum Action: Character {
 
 struct Instruction {
     let action: Action
-    let value: CGFloat
+    let value: Float
 }
 
 extension Instruction {
@@ -46,6 +39,6 @@ extension Instruction {
         }
         
         self.action = action
-        self.value = CGFloat(value)
+        self.value = value
     }
 }
