@@ -17,13 +17,13 @@ struct Point {
         abs(other.x - x) + abs(other.y - y)
     }
     
-    func applying(_ transform: Transform2D) -> Point {
+    func applying(_ transform: AffineTransform) -> Point {
         var point = self
         point.apply(transform)
         return point
     }
     
-    mutating func apply(_ transform: Transform2D) {
+    mutating func apply(_ transform: AffineTransform) {
         let newX = transform.a * x + transform.c * y + transform.tx
         let newY = transform.b * x + transform.d * y + transform.ty
         
@@ -43,7 +43,7 @@ extension Point: Hashable {}
 
 extension Point: Equatable {}
 
-struct Transform2D {
+struct AffineTransform {
     var a: Float
     var b: Float
     var c: Float
@@ -51,7 +51,7 @@ struct Transform2D {
     var tx: Float
     var ty: Float
     
-    static let identity = Transform2D(
+    static let identity = AffineTransform(
         a: 1,
         b: 0,
         c: 0,
@@ -60,11 +60,11 @@ struct Transform2D {
         ty: 0
     )
     
-    static func rotation(by angle: Float) -> Transform2D {
+    static func rotation(by angle: Float) -> AffineTransform {
         let sine = sin(angle)
         let cosine = cos(angle)
         
-        return Transform2D(
+        return AffineTransform(
             a: cosine,
             b: sine,
             c: -sine,
@@ -74,13 +74,13 @@ struct Transform2D {
         )
     }
     
-    static func rotation(by angle: Measurement<UnitAngle>) -> Transform2D {
+    static func rotation(by angle: Measurement<UnitAngle>) -> AffineTransform {
         let radians = angle.converted(to: .radians)
         return rotation(by: Float(radians.value))
     }
     
-    static func translation(x: Float, y: Float) -> Transform2D {
-        Transform2D(
+    static func translation(x: Float, y: Float) -> AffineTransform {
+        AffineTransform(
             a: 1,
             b: 0,
             c: 0,
@@ -91,4 +91,4 @@ struct Transform2D {
     }
 }
 
-extension Transform2D: Equatable {}
+extension AffineTransform: Equatable {}

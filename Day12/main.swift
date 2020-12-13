@@ -54,7 +54,7 @@ struct Day12: DayCommand {
                 direction.apply(.rotation(by: angle))
                 
             case .forward:
-                let translation: Transform2D = .translation(
+                let translation: AffineTransform = .translation(
                     x: instruction.value * direction.x,
                     y: instruction.value * direction.y
                 )
@@ -85,8 +85,7 @@ struct Day12: DayCommand {
                 waypointPosition.apply(.translation(x: -instruction.value, y: 0))
                 
             case .forward:
-                
-                let transform: Transform2D = .translation(
+                let transform: AffineTransform = .translation(
                     x: instruction.value * waypointPosition.x,
                     y: instruction.value * waypointPosition.y
                 )
