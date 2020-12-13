@@ -19,7 +19,7 @@ enum Action: Character {
 
 struct Instruction {
     let action: Action
-    let value: Float
+    let value: Double
 }
 
 extension Instruction {
@@ -34,7 +34,7 @@ extension Instruction {
             return nil
         }
         
-        guard let value = Float(rawValue) else {
+        guard let value = Double(rawValue) else {
             return nil
         }
         

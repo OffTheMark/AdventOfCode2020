@@ -8,12 +8,12 @@
 import Foundation
 
 struct Point {
-    var x: Float
-    var y: Float
+    var x: Double
+    var y: Double
     
     static let zero = Point(x: 0, y: 0)
     
-    func manhattanDistance(to other: Point) -> Float {
+    func manhattanDistance(to other: Point) -> Double {
         abs(other.x - x) + abs(other.y - y)
     }
     
@@ -34,8 +34,8 @@ struct Point {
 
 extension Point {
     init(x: Int, y: Int) {
-        self.x = Float(x)
-        self.y = Float(y)
+        self.x = Double(x)
+        self.y = Double(y)
     }
 }
 
@@ -44,12 +44,12 @@ extension Point: Hashable {}
 extension Point: Equatable {}
 
 struct AffineTransform {
-    var a: Float
-    var b: Float
-    var c: Float
-    var d: Float
-    var tx: Float
-    var ty: Float
+    var a: Double
+    var b: Double
+    var c: Double
+    var d: Double
+    var tx: Double
+    var ty: Double
     
     static let identity = AffineTransform(
         a: 1,
@@ -60,7 +60,7 @@ struct AffineTransform {
         ty: 0
     )
     
-    static func rotation(by angle: Float) -> AffineTransform {
+    static func rotation(by angle: Double) -> AffineTransform {
         let sine = sin(angle)
         let cosine = cos(angle)
         
@@ -76,10 +76,10 @@ struct AffineTransform {
     
     static func rotation(by angle: Measurement<UnitAngle>) -> AffineTransform {
         let radians = angle.converted(to: .radians)
-        return rotation(by: Float(radians.value))
+        return rotation(by: radians.value)
     }
     
-    static func translation(x: Float, y: Float) -> AffineTransform {
+    static func translation(x: Double, y: Double) -> AffineTransform {
         AffineTransform(
             a: 1,
             b: 0,

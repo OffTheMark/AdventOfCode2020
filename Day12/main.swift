@@ -26,7 +26,7 @@ struct Day12: DayCommand {
         print("Distance:", String(format: "%.0f", part2Solution))
     }
     
-    func part1(using instructions: [Instruction]) -> Float {
+    func part1(using instructions: [Instruction]) -> Double {
         let initialPosition: Point = .zero
         var position = initialPosition
         var direction = Point(x: 1, y: 0)
@@ -65,7 +65,7 @@ struct Day12: DayCommand {
         return position.manhattanDistance(to: initialPosition)
     }
     
-    func part2(using instructions: [Instruction]) -> Float {
+    func part2(using instructions: [Instruction]) -> Double {
         let initialPosition: Point = .zero
         var position = initialPosition
         var waypointPosition = Point(x: 10, y: -1)
