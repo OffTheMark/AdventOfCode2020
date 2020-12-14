@@ -8,6 +8,14 @@
 import Foundation
 
 extension Int {
+    mutating func setBit(at position: Int) {
+        self |= 1 << position
+    }
+    
+    mutating func clearBit(at position: Int) {
+        self &= ~(1 << position)
+    }
+    
     func settingBit(at position: Int) -> Int {
         return self | 1 << position
     }
@@ -22,19 +30,6 @@ enum Version1 {
         case clear = "0"
         case set = "1"
         case none = "x"
-        
-        func apply(toPosition position: Int, ofValue value: Int) -> Int {
-            switch self {
-            case .none:
-                return value
-                
-            case .clear:
-                return value.clearingBit(at: position)
-                
-            case .set:
-                return value.settingBit(at: position)
-            }
-        }
     }
     
     enum Line {
@@ -85,7 +80,16 @@ extension Dictionary where Key == Int, Value == Version1.BitOperation {
         var value = value
         
         for (position, operation) in self {
-            value = operation.apply(toPosition: position, ofValue: value)
+            switch operation {
+            case .set:
+                value.setBit(at: position)
+                
+            case .clear:
+                value.clearBit(at: position)
+                
+            case .none:
+                break
+            }
         }
         
         return value
@@ -161,8 +165,8 @@ extension Dictionary where Key == Int, Value == Version2.BitOperation {
             }
         }
         
-        let baseAddress = overwrittenPositions.reduce(baseAddress, { result, position in
-            return result.settingBit(at: position)
+        let baseAddress = overwrittenPositions.reduce(into: baseAddress, { result, position in
+            result.setBit(at: position)
         })
         
         var addresses = [baseAddress]
