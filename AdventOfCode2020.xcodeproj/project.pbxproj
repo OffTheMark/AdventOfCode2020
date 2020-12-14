@@ -34,6 +34,7 @@
 		3432BD51257E59F700005E7D /* LuggageRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3432BD50257E59F700005E7D /* LuggageRule.swift */; };
 		34504A3E258660D10043AD72 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34504A3D258660D10043AD72 /* main.swift */; };
 		34504A51258660FC0043AD72 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 34504A50258660FC0043AD72 /* AdventOfCodeUtilities */; };
+		34504A7C258709E30043AD72 /* LCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34504A7B258709E30043AD72 /* LCM.swift */; };
 		3475B31F257FA99F00428052 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B31E257FA99F00428052 /* main.swift */; };
 		3475B32C257FA9A300428052 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3475B32B257FA9A300428052 /* AdventOfCodeUtilities */; };
 		3475B348257FA9E500428052 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B347257FA9E500428052 /* Console.swift */; };
@@ -202,6 +203,7 @@
 		34504A3B258660D10043AD72 /* Day13 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day13; sourceTree = BUILT_PRODUCTS_DIR; };
 		34504A3D258660D10043AD72 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		34504A4F258660E30043AD72 /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
+		34504A7B258709E30043AD72 /* LCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCM.swift; sourceTree = "<group>"; };
 		3475B31C257FA99F00428052 /* Day8 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day8; sourceTree = BUILT_PRODUCTS_DIR; };
 		3475B31E257FA99F00428052 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3475B347257FA9E500428052 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 			children = (
 				34504A3D258660D10043AD72 /* main.swift */,
 				34504A4F258660E30043AD72 /* puzzle_input.txt */,
+				34504A7B258709E30043AD72 /* LCM.swift */,
 			);
 			path = Day13;
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34504A7C258709E30043AD72 /* LCM.swift in Sources */,
 				34504A3E258660D10043AD72 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

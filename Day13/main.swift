@@ -77,8 +77,8 @@ struct Day13: DayCommand {
             let identifier = identifiers[index]
             
             if (timestamp + Int64(index)).isMultiple(of: identifier) {
-                increment *= identifier
-                index += 1
+                increment = leastCommonMultiple(increment, identifier)
+                index = identifiers.index(after: index)
             }
             else {
                 timestamp += increment
