@@ -7,6 +7,16 @@
 
 import Foundation
 
+extension Int {
+    func settingBit(at position: Int) -> Int {
+        return self | 1 << position
+    }
+    
+    func clearingBit(at position: Int) -> Int {
+        return self & ~(1 << position)
+    }
+}
+
 enum Version1 {
     enum BitOperation: Character {
         case clear = "0"
@@ -19,10 +29,10 @@ enum Version1 {
                 return value
                 
             case .clear:
-                return value ^ ((-0 ^ value) & (1 << position))
+                return value.clearingBit(at: position)
                 
             case .set:
-                return value ^ ((-1 ^ value) & (1 << position))
+                return value.settingBit(at: position)
             }
         }
     }
@@ -151,22 +161,23 @@ extension Dictionary where Key == Int, Value == Version2.BitOperation {
             }
         }
         
-        let baseAddress = overwrittenPositions.reduce(into: baseAddress, { result, position in
-            result ^= ((-1 ^ result) & (1 << position))
+        let baseAddress = overwrittenPositions.reduce(baseAddress, { result, position in
+            return result.settingBit(at: position)
         })
         
         var addresses = [baseAddress]
         
         for position in floatingPositions {
-            var clearedAddresses = [Int]()
-            var setAddresses = [Int]()
+            var newAddresses = [Int]()
             
             for address in addresses {
-                clearedAddresses.append(address ^ ((-0 ^ address) & (1 << position)))
-                setAddresses.append(address ^ ((-1 ^ address) & (1 << position)))
+                newAddresses += [
+                    address.clearingBit(at: position),
+                    address.settingBit(at: position)
+                ]
             }
             
-            addresses = clearedAddresses + setAddresses
+            addresses = newAddresses
         }
         
         return addresses
