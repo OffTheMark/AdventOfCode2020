@@ -26,7 +26,6 @@ struct Day15: DayCommand {
     }
     
     func part1(with numbers: [Int]) -> Int {
-        var numbers = numbers
         var indicesByNumber: [Int: [Int]] = numbers.enumerated()
             .reduce(into: [:], { result, element in
                 let (index, number) = element
@@ -45,18 +44,16 @@ struct Day15: DayCommand {
                 currentNumber = 0
             }
             
-            numbers.append(currentNumber)
             indicesByNumber[currentNumber, default: []].append(currentIndex)
             
             currentIndex = numbers.index(after: currentIndex)
             lastNumber = currentNumber
         }
         
-        return numbers.last!
+        return lastNumber
     }
     
     func part2(with numbers: [Int]) -> Int {
-        var numbers = numbers
         var indicesByNumber: [Int: [Int]] = numbers.enumerated()
             .reduce(into: [:], { result, element in
                 let (index, number) = element
@@ -75,7 +72,6 @@ struct Day15: DayCommand {
                 currentNumber = 0
             }
             
-            numbers.append(currentNumber)
             var indices = indicesByNumber[currentNumber, default: []]
             indices.append(currentIndex)
             indicesByNumber[currentNumber] = Array(indices.suffix(2))
@@ -84,7 +80,7 @@ struct Day15: DayCommand {
             lastNumber = currentNumber
         }
         
-        return numbers.last!
+        return lastNumber
     }
 }
 
