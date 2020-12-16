@@ -41,33 +41,30 @@ struct Game {
     let numberOfTurns: Int
     
     func play() -> Int {
-        var indicesByNumber: [Int: [Int]] = numbers.enumerated()
+        var indicesByNumber: [Int: Int] = numbers.enumerated()
             .reduce(into: [:], { result, element in
                 let (index, number) = element
-                result[number] = [index]
+                result[number] = index
             })
         
         var currentIndex = numbers.endIndex
-        var lastNumber = numbers.last!
+        var previousNumber = numbers.last!
         
         while currentIndex < numberOfTurns {
             let currentNumber: Int
-            if let indices = indicesByNumber[lastNumber], indices.count == 2 {
-                currentNumber = indices[1] - indices[0]
+            if let lastIndex = indicesByNumber[previousNumber] {
+                currentNumber = numbers.index(before: currentIndex) - lastIndex
             }
             else {
                 currentNumber = 0
             }
             
-            var indices = indicesByNumber[currentNumber, default: []]
-            indices.append(currentIndex)
-            indicesByNumber[currentNumber] = Array(indices.suffix(2))
-            
+            indicesByNumber[previousNumber] = numbers.index(before: currentIndex)
             currentIndex = numbers.index(after: currentIndex)
-            lastNumber = currentNumber
+            previousNumber = currentNumber
         }
         
-        return lastNumber
+        return previousNumber
     }
 }
 
