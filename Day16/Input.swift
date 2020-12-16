@@ -10,7 +10,7 @@ import Foundation
 struct Input {
     let rulesByField: [String: Rule]
     let ticket: Ticket
-    let othetTickets: [Ticket]
+    var otherTickets: [Ticket]
 }
 
 extension Input {
@@ -42,7 +42,7 @@ extension Input {
         self.ticket = ticket
         
         let otherTicketParts = parts[2].components(separatedBy: .newlines).dropFirst()
-        self.othetTickets = otherTicketParts.compactMap({ Ticket(rawValue: $0) })
+        self.otherTickets = otherTicketParts.compactMap({ Ticket(rawValue: $0) })
     }
 }
 
