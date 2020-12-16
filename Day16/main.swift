@@ -68,10 +68,10 @@ struct Day16: DayCommand {
     }
     
     func part2(with input: Input) -> Int {
-        var possibleIndicesByField = [String: Set<Int>]()
+        var possibleMatchesByField = [String: Set<Int>]()
         
         for ticket in input.otherTickets {
-            var possibilitiesForTicket = [String: Set<Int>]()
+            var possibleMatchesForTicket = [String: Set<Int>]()
             
             for (fieldName, rule) in input.rulesByField {
                 let possibleIndices: Set<Int> = ticket.numbers.enumerated().reduce(into: [], { result, element in
@@ -82,60 +82,45 @@ struct Day16: DayCommand {
                     }
                 })
                 
-                possibilitiesForTicket[fieldName] = possibleIndices
+                possibleMatchesForTicket[fieldName] = possibleIndices
             }
             
-            if possibleIndicesByField.isEmpty {
-                possibleIndicesByField = possibilitiesForTicket
-                continue
-            }
-            
-            for fieldName in possibleIndicesByField.keys {
-                possibleIndicesByField[fieldName, default: []].formIntersection(possibilitiesForTicket[fieldName]!)
-            }
-        }
-        
-        var confirmedIndicesByField = [String: Int]()
-        var confirmedMatches: [(fieldName: String, index: Int)] = possibleIndicesByField.compactMap({ (fieldName, indices) in
-            if confirmedIndicesByField.keys.contains(fieldName) {
-                return nil
-            }
-            
-            guard indices.count == 1, let index = indices.first else {
-                return nil
-            }
-            
-            return (fieldName, index)
-        })
-        
-        while confirmedMatches.isEmpty == false {
-            for (fieldName, index) in confirmedMatches {
-                confirmedIndicesByField[fieldName] = index
-                
-                possibleIndicesByField.removeValue(forKey: fieldName)
-                
-                for (fieldName, indices) in possibleIndicesByField {
-                    possibleIndicesByField[fieldName] = indices.subtracting([index])
-                }
-            }
-            
-            confirmedMatches = possibleIndicesByField.compactMap({ (fieldName, indices) in
-                if confirmedIndicesByField.keys.contains(fieldName) {
-                    return nil
+            possibleMatchesByField.merge(possibleMatchesForTicket, uniquingKeysWith: { fieldMatches, ticketMatches in
+                if fieldMatches.isEmpty {
+                    return ticketMatches
                 }
                 
-                guard indices.count == 1, let index = indices.first else {
-                    return nil
-                }
-                
-                return (fieldName, index)
+                return fieldMatches.intersection(ticketMatches)
             })
         }
         
-        let numbersByIndex: [Int: Int] = input.ticket.numbers.enumerated().reduce(into: [:], { result, element in
-            let (index, number) = element
-            result[index] = number
-        })
+        var confirmedIndicesByField = [String: Int]()
+        
+        while possibleMatchesByField.isEmpty == false {
+            let confirmedMatches: [(fieldName: String, index: Int)] = possibleMatchesByField
+                .compactMap({ (fieldName, indices) in
+                    guard indices.count == 1, let index = indices.first else {
+                        return nil
+                    }
+                    
+                    return (fieldName, index)
+                })
+            
+            for (fieldName, index) in confirmedMatches {
+                confirmedIndicesByField[fieldName] = index
+                possibleMatchesByField.removeValue(forKey: fieldName)
+                
+                for (fieldName, indices) in possibleMatchesByField {
+                    possibleMatchesByField[fieldName] = indices.subtracting([index])
+                }
+            }
+        }
+        
+        let numbersByIndex: [Int: Int] = input.ticket.numbers.enumerated()
+            .reduce(into: [:], { result, element in
+                let (index, number) = element
+                result[index] = number
+            })
         
         return confirmedIndicesByField.reduce(into: 1, { product, element in
             let (fieldName, index) = element
