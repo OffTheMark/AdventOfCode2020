@@ -26,47 +26,34 @@ struct Day15: DayCommand {
     }
     
     func part1(with numbers: [Int]) -> Int {
-        var indicesByNumber: [Int: [Int]] = numbers.enumerated()
-            .reduce(into: [:], { result, element in
-                let (index, number) = element
-                result[number] = [index]
-            })
-        var currentIndex = numbers.endIndex
-        var lastNumber = numbers.last!
-        
-        while currentIndex < 2020 {
-            let currentNumber: Int
-            if let indices = indicesByNumber[lastNumber], indices.count > 1 {
-                let lastTwoIndices = Array(indices.suffix(2))
-                currentNumber = lastTwoIndices[1] - lastTwoIndices[0]
-            }
-            else {
-                currentNumber = 0
-            }
-            
-            indicesByNumber[currentNumber, default: []].append(currentIndex)
-            
-            currentIndex = numbers.index(after: currentIndex)
-            lastNumber = currentNumber
-        }
-        
-        return lastNumber
+        let game = Game(numbers: numbers, numberOfTurns: 2020)
+        return game.play()
     }
     
     func part2(with numbers: [Int]) -> Int {
+        let game = Game(numbers: numbers, numberOfTurns: 30_000_000)
+        return game.play()
+    }
+}
+
+struct Game {
+    let numbers: [Int]
+    let numberOfTurns: Int
+    
+    func play() -> Int {
         var indicesByNumber: [Int: [Int]] = numbers.enumerated()
             .reduce(into: [:], { result, element in
                 let (index, number) = element
                 result[number] = [index]
             })
+        
         var currentIndex = numbers.endIndex
         var lastNumber = numbers.last!
         
-        while currentIndex < 30_000_000 {
+        while currentIndex < numberOfTurns {
             let currentNumber: Int
-            if let indices = indicesByNumber[lastNumber], indices.count > 1 {
-                let lastTwoIndices = Array(indices.suffix(2))
-                currentNumber = lastTwoIndices[1] - lastTwoIndices[0]
+            if let indices = indicesByNumber[lastNumber], indices.count == 2 {
+                currentNumber = indices[1] - indices[0]
             }
             else {
                 currentNumber = 0
