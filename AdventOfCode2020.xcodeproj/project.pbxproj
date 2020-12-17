@@ -58,7 +58,7 @@
 		34D4C2E7258B87590080E851 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D4C2E6258B87590080E851 /* main.swift */; };
 		34D4C2FD258B875D0080E851 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 34D4C2FC258B875D0080E851 /* AdventOfCodeUtilities */; };
 		34D4C310258B87600080E851 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 34D4C30F258B87600080E851 /* Algorithms */; };
-		34D4C313258B87940080E851 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D4C312258B87940080E851 /* Point.swift */; };
+		34D4C313258B87940080E851 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D4C312258B87940080E851 /* Grid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -280,7 +280,7 @@
 		34D4C2E4258B87590080E851 /* Day17 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day17; sourceTree = BUILT_PRODUCTS_DIR; };
 		34D4C2E6258B87590080E851 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		34D4C311258B877B0080E851 /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
-		34D4C312258B87940080E851 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		34D4C312258B87940080E851 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -645,7 +645,7 @@
 			children = (
 				34D4C2E6258B87590080E851 /* main.swift */,
 				34D4C311258B877B0080E851 /* puzzle_input.txt */,
-				34D4C312258B87940080E851 /* Point.swift */,
+				34D4C312258B87940080E851 /* Grid.swift */,
 			);
 			path = Day17;
 			sourceTree = "<group>";
@@ -1244,7 +1244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34D4C313258B87940080E851 /* Point.swift in Sources */,
+				34D4C313258B87940080E851 /* Grid.swift in Sources */,
 				34D4C2E7258B87590080E851 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

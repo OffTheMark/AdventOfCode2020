@@ -20,6 +20,10 @@ struct Day17: DayCommand {
         let part1Solution = part1(using: lines)
         printTitle("Part 1", level: .title1)
         print("Number of active cubes:", part1Solution, terminator: "\n\n")
+        
+        let part2Solution = part2(using: lines)
+        printTitle("Part 2", level: .title1)
+        print("Number of active cubes:", part2Solution)
     }
     
     func part1(using lines: [String]) -> Int {
@@ -40,6 +44,54 @@ struct Day17: DayCommand {
             for (pair, z) in product(product(rangeOfX, rangeOfY), rangeOfZ) {
                 let (x, y) = pair
                 let point = Point3D(x: x, y: y, z: z)
+                let cube = grid[point]
+                let numberOfActiveNeighbors = point.neighbors().count(where: { neighbor in
+                    return grid[neighbor] == .active
+                })
+                
+                switch (cube, numberOfActiveNeighbors) {
+                case (.active, 2 ... 3):
+                    break
+                    
+                case (.active, _):
+                    copy[point] = .inactive
+                    
+                case (.inactive, 3):
+                    copy[point] = .active
+                    
+                case (.inactive, _):
+                    break
+                }
+            }
+            
+            grid.merge(copy)
+        }
+        
+        return grid.contents.count(where: { _, cube in
+            return cube == .active
+        })
+    }
+    
+    func part2(using lines: [String]) -> Int {
+        var grid = Grid4D(lines: lines)
+        
+        for _ in 0 ..< 6 {
+            var copy = grid
+            var rangeOfX = -1 ... 1
+            var rangeOfY = -1 ... 1
+            var rangeOfZ = -1 ... 1
+            var rangeOfW = -1 ... 1
+            
+            for coordinate in grid.contents.keys {
+                rangeOfX = min(rangeOfX.lowerBound, coordinate.x - 1) ... max(rangeOfX.upperBound, coordinate.x + 1)
+                rangeOfY = min(rangeOfY.lowerBound, coordinate.y - 1) ... max(rangeOfY.upperBound, coordinate.y + 1)
+                rangeOfZ = min(rangeOfZ.lowerBound, coordinate.z - 1) ... max(rangeOfZ.upperBound, coordinate.z + 1)
+                rangeOfW = min(rangeOfW.lowerBound, coordinate.w - 1) ... max(rangeOfW.upperBound, coordinate.w + 1)
+            }
+            
+            for (pair, w) in product(product(product(rangeOfX, rangeOfY), rangeOfZ), rangeOfW) {
+                let ((x, y), z) = pair
+                let point = Point4D(x: x, y: y, z: z, w: w)
                 let cube = grid[point]
                 let numberOfActiveNeighbors = point.neighbors().count(where: { neighbor in
                     return grid[neighbor] == .active
