@@ -29,9 +29,9 @@ struct Day17: DayCommand {
     func part1(using lines: [String]) -> Int {
         var grid = Grid3D(lines: lines)
         
-        var rangeOfX = -1 ... 1
-        var rangeOfY = -1 ... 1
-        var rangeOfZ = -1 ... 1
+        var rangeOfX = 0 ... 0
+        var rangeOfY = 0 ... 0
+        var rangeOfZ = 0 ... 0
         
         for coordinate in grid.contents.keys {
             rangeOfX = min(rangeOfX.lowerBound, coordinate.x - 1) ... max(rangeOfX.upperBound, coordinate.x + 1)
@@ -80,10 +80,10 @@ struct Day17: DayCommand {
     func part2(using lines: [String]) -> Int {
         var grid = Grid4D(lines: lines)
         
-        var rangeOfX = -1 ... 1
-        var rangeOfY = -1 ... 1
-        var rangeOfZ = -1 ... 1
-        var rangeOfW = -1 ... 1
+        var rangeOfX = 0 ... 0
+        var rangeOfY = 0 ... 0
+        var rangeOfZ = 0 ... 0
+        var rangeOfW = 0 ... 0
         
         for coordinate in grid.contents.keys {
             rangeOfX = min(rangeOfX.lowerBound, coordinate.x - 1) ... max(rangeOfX.upperBound, coordinate.x + 1)
