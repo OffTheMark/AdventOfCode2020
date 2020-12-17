@@ -18,15 +18,15 @@ struct Day16: DayCommand {
         let rawValue = try readFile()
         var input = Input(rawValue: rawValue)!
         
-        let invalidValuesForAnyFieldByTicketIndex = part1(with: input)
-        let part1Solution = invalidValuesForAnyFieldByTicketIndex.values.reduce(into: 0, { result, invalidValues in
+        let invalidValuesByTicketIndex = part1(with: input)
+        let part1Solution = invalidValuesByTicketIndex.values.reduce(into: 0, { result, invalidValues in
             result += invalidValues.reduce(0, +)
         })
         
         printTitle("Part 1", level: .title1)
         print("Error rate:", part1Solution, terminator: "\n\n")
         
-        for index in invalidValuesForAnyFieldByTicketIndex.keys.sorted(by: >) {
+        for index in invalidValuesByTicketIndex.keys.sorted(by: >) {
             input.otherTickets.remove(at: index)
         }
         
@@ -36,7 +36,7 @@ struct Day16: DayCommand {
     }
     
     func part1(with input: Input) -> [Int: [Int]] {
-        var invalidValuesForAnyFieldByTicketIndex = [Int: [Int]]()
+        var invalidValuesByTicketIndex = [Int: [Int]]()
         
         for (index, ticket) in input.otherTickets.enumerated() {
             let numberOfValidRulesByValue: [Int: Int] = product(ticket.numbers, input.rulesByField.values)
@@ -59,12 +59,12 @@ struct Day16: DayCommand {
                 return nil
             })
             
-            if valuesMatchingNoRule.isEmpty  == false {
-                invalidValuesForAnyFieldByTicketIndex[index] = valuesMatchingNoRule
+            if valuesMatchingNoRule.isEmpty == false {
+                invalidValuesByTicketIndex[index] = valuesMatchingNoRule
             }
         }
         
-        return invalidValuesForAnyFieldByTicketIndex
+        return invalidValuesByTicketIndex
     }
     
     func part2(with input: Input) -> Int {
@@ -86,10 +86,6 @@ struct Day16: DayCommand {
             }
             
             possibleMatchesByField.merge(possibleMatchesForTicket, uniquingKeysWith: { fieldMatches, ticketMatches in
-                if fieldMatches.isEmpty {
-                    return ticketMatches
-                }
-                
                 return fieldMatches.intersection(ticketMatches)
             })
         }
