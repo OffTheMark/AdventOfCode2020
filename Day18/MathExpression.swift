@@ -27,42 +27,58 @@ struct MathExpression {
                 
                 return token
             })
-        
-        let notation = reversePolishNotation(for: tokens)
+        let notation = try reversePolishNotation(for: tokens)
         
         return evaluate(notation)
     }
     
-    private func reversePolishNotation(for tokens: [Token]) -> [Token] {
-        var operators = Stack<Token>()
+    private func reversePolishNotation(for tokens: [Token]) throws -> [Token] {
+        var operators = Stack<Operation>()
         var output = [Token]()
         
         for token in tokens {
             switch token {
             case .value:
                 output.append(token)
-            
-            case .addition, .multiplication:
-                while !operators.isEmpty, operators.peek() != .openingParenthesis {
-                    output.append(operators.pop())
+                
+            case (.operation(let operation)):
+                switch operation {
+                case .add, .multiply:
+                    while !operators.isEmpty, operators.peek() != .openingParenthesis {
+                        let operatorToken: Token = .operation(operators.pop())
+                        output.append(operatorToken)
+                    }
+                    
+                    operators.push(operation)
+                    
+                case .openingParenthesis:
+                    operators.push(operation)
+                    
+                case .closingParenthesis:
+                    while operators.peek() != .openingParenthesis {
+                        let operatorToken: Token = .operation(operators.pop())
+                        output.append(operatorToken)
+                    }
+                    
+                    if operators.isEmpty {
+                        throw Error.mismatchedParentheses
+                    }
+                    
+                    operators.pop()
                 }
-                
-                operators.push(token)
-                
-            case .openingParenthesis:
-                operators.push(token)
-                
-            case .closingParenthesis:
-                while operators.peek() != .openingParenthesis {
-                    output.append(operators.pop())
-                }
-                
-                operators.pop()
             }
         }
         
         while !operators.isEmpty {
-            output.append(operators.pop())
+            let operation = operators.pop()
+            
+            switch operation {
+            case .add, .multiply:
+                output.append(.operation(operation))
+                
+            case .openingParenthesis, .closingParenthesis:
+                throw Error.mismatchedParentheses
+            }
         }
         
         return output
@@ -77,30 +93,33 @@ struct MathExpression {
                 continue
             }
             
-            let rhs = stack.pop()
-            let lhs = stack.pop()
-            
             switch token {
-            case .addition:
-                stack.push(lhs + rhs)
+            case .value(let value):
+                stack.push(value)
                 
-            case .multiplication:
-                stack.push(lhs * rhs)
+            case .operation(let operation):
+                let rhs = stack.pop()
+                let lhs = stack.pop()
                 
-            default:
-                continue
+                switch operation {
+                case .add:
+                    stack.push(lhs + rhs)
+                    
+                case .multiply:
+                    stack.push(lhs * rhs)
+                    
+                default:
+                    continue
+                }
             }
         }
         
         return stack.pop()
     }
     
-    enum Token {
+    fileprivate enum Token {
         case value(Int)
-        case addition
-        case multiplication
-        case openingParenthesis
-        case closingParenthesis
+        case operation(Operation)
             
         init?(rawValue: String)  {
             if let value = Int(rawValue) {
@@ -109,44 +128,25 @@ struct MathExpression {
                 return
             }
             
-            switch rawValue {
-            case "+":
-                self = .addition
-                
-            case "*":
-                self = .multiplication
-                
-            case "(":
-                self = .openingParenthesis
-                
-            case ")":
-                self = .closingParenthesis
-                
-            default:
+            guard let operation = Operation(rawValue: rawValue) else {
                 return nil
             }
+            
+            self = .operation(operation)
         }
+    }
+    
+    fileprivate enum Operation: String {
+        case add = "+"
+        case multiply = "*"
+        case openingParenthesis = "("
+        case closingParenthesis = ")"
     }
     
     enum Error: Swift.Error {
         case invalidToken(String)
+        case mismatchedParentheses
     }
 }
 
-extension MathExpression.Token: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        switch (lhs, rhs) {
-        case (.value(let left), .value(let right)):
-            return left == right
-            
-        case (.addition, .addition),
-             (.multiplication, .multiplication),
-             (.openingParenthesis, .openingParenthesis),
-             (.closingParenthesis, .closingParenthesis):
-            return true
-            
-        default:
-            return false
-        }
-    }
-}
+extension MathExpression.Token: Equatable {}
