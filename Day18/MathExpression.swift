@@ -34,11 +34,14 @@ struct MathExpression {
         return evaluate(notation)
     }
     
-    private func reversePolishNotation(for tokens: [Token]) throws -> [Token] {
+    /// Transforms the tokens to Reverse Polish Notation using the shunting-yard algorithm.
+    ///
+    /// The implementation is based on the algorithm's [Wikipedia page.](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
+    private func reversePolishNotation(for infixNotation: [Token]) throws -> [Token] {
         var operators = Stack<Operation>()
         var output = [Token]()
         
-        for token in tokens {
+        for token in infixNotation {
             switch token {
             case .value:
                 output.append(token)
@@ -94,10 +97,13 @@ struct MathExpression {
         return output
     }
     
-    private func evaluate(_ notation: [Token]) -> Int {
+    /// Evaluates the expression in postfix notation (or Reverse Polish Notation).
+    ///
+    /// The implementation is based on [this article](https://www.geeksforgeeks.org/stack-set-4-evaluation-postfix-expression/).
+    private func evaluate(_ postfixNotation: [Token]) -> Int {
         var stack = Stack<Int>()
         
-        for token in notation {
+        for token in postfixNotation {
             if case .value(let value) = token {
                 stack.push(value)
                 continue
