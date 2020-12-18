@@ -10,9 +10,11 @@ import SwiftDataStructures
 
 struct MathExpression {
     let text: String
+    let mode: Mode
     
-    init(_ text: String) {
+    init(_ text: String, mode: Mode) {
         self.text = text
+        self.mode = mode
     }
     
     func evaluate() throws -> Int {
@@ -44,7 +46,15 @@ struct MathExpression {
             case (.operation(let operation)):
                 switch operation {
                 case .add, .multiply:
-                    while !operators.isEmpty, operators.peek() != .openingParenthesis {
+                    while !operators.isEmpty {
+                        let peeked: Operation = operators.peek()!
+                        
+                        guard peeked.precedence(in: mode) > operation.precedence(in: mode) ||
+                                (peeked.precedence(in: mode) == operation.precedence(in: mode) && operation.isLeftAssociative),
+                              peeked != .openingParenthesis else {
+                            break
+                        }
+                        
                         let operatorToken: Token = .operation(operators.pop())
                         output.append(operatorToken)
                     }
@@ -117,6 +127,11 @@ struct MathExpression {
         return stack.pop()
     }
     
+    enum Mode {
+        case part1
+        case part2
+    }
+    
     fileprivate enum Token {
         case value(Int)
         case operation(Operation)
@@ -141,6 +156,32 @@ struct MathExpression {
         case multiply = "*"
         case openingParenthesis = "("
         case closingParenthesis = ")"
+        
+        func precedence(in mode: Mode) -> Int {
+            switch (self, mode) {
+            case (.add, .part1),
+                 (.add, .part2),
+                 (.multiply, .part1):
+                return 1
+                
+            case (.multiply, .part2):
+                return 0
+            
+            case (.openingParenthesis, _),
+                 (.closingParenthesis, _):
+                return 2
+            }
+        }
+        
+        var isLeftAssociative: Bool {
+            switch self {
+            case .add, .multiply:
+                return true
+                
+            case .openingParenthesis, .closingParenthesis:
+                return false
+            }
+        }
     }
     
     enum Error: Swift.Error {
