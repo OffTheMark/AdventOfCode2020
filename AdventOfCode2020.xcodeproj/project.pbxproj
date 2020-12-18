@@ -41,6 +41,7 @@
 		3473B147258CD950005A077F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B146258CD950005A077F /* main.swift */; };
 		3473B15E258CD954005A077F /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3473B15D258CD954005A077F /* AdventOfCodeUtilities */; };
 		3473B199258CDD01005A077F /* SwiftDataStructures in Frameworks */ = {isa = PBXBuildFile; productRef = 3473B198258CDD01005A077F /* SwiftDataStructures */; };
+		3473B1F8258D1C05005A077F /* MathExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B1F7258D1C05005A077F /* MathExpression.swift */; };
 		3475B31F257FA99F00428052 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B31E257FA99F00428052 /* main.swift */; };
 		3475B32C257FA9A300428052 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3475B32B257FA9A300428052 /* AdventOfCodeUtilities */; };
 		3475B348257FA9E500428052 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B347257FA9E500428052 /* Console.swift */; };
@@ -272,6 +273,7 @@
 		3473B144258CD950005A077F /* Day18 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day18; sourceTree = BUILT_PRODUCTS_DIR; };
 		3473B146258CD950005A077F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3473B171258CD965005A077F /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
+		3473B1F7258D1C05005A077F /* MathExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathExpression.swift; sourceTree = "<group>"; };
 		3475B31C257FA99F00428052 /* Day8 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day8; sourceTree = BUILT_PRODUCTS_DIR; };
 		3475B31E257FA99F00428052 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3475B347257FA9E500428052 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 			children = (
 				3473B146258CD950005A077F /* main.swift */,
 				3473B171258CD965005A077F /* puzzle_input.txt */,
+				3473B1F7258D1C05005A077F /* MathExpression.swift */,
 			);
 			path = Day18;
 			sourceTree = "<group>";
@@ -1255,6 +1258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3473B147258CD950005A077F /* main.swift in Sources */,
+				3473B1F8258D1C05005A077F /* MathExpression.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
