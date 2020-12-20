@@ -45,6 +45,11 @@
 		3473B212258E5F5D005A077F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B211258E5F5D005A077F /* main.swift */; };
 		3473B22A258E5F66005A077F /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3473B229258E5F66005A077F /* AdventOfCodeUtilities */; };
 		3473B22C258E5F66005A077F /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3473B22B258E5F66005A077F /* Algorithms */; };
+		3473B299258FB948005A077F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B298258FB948005A077F /* main.swift */; };
+		3473B2B2258FB94C005A077F /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3473B2B1258FB94C005A077F /* AdventOfCodeUtilities */; };
+		3473B2C8258FB94E005A077F /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3473B2C7258FB94E005A077F /* Algorithms */; };
+		3473B2DF258FB9C3005A077F /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B2DE258FB9C3005A077F /* Tile.swift */; };
+		3473B309258FB9E1005A077F /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B308258FB9E1005A077F /* Point.swift */; };
 		3475B31F257FA99F00428052 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B31E257FA99F00428052 /* main.swift */; };
 		3475B32C257FA9A300428052 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 3475B32B257FA9A300428052 /* AdventOfCodeUtilities */; };
 		3475B348257FA9E500428052 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3475B347257FA9E500428052 /* Console.swift */; };
@@ -177,6 +182,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		3473B294258FB948005A077F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		3475B31A257FA99F00428052 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -289,6 +303,11 @@
 		3473B20F258E5F5D005A077F /* Day19 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day19; sourceTree = BUILT_PRODUCTS_DIR; };
 		3473B211258E5F5D005A077F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3473B22D258E5F77005A077F /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
+		3473B296258FB948005A077F /* Day20 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day20; sourceTree = BUILT_PRODUCTS_DIR; };
+		3473B298258FB948005A077F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		3473B2DD258FB9AB005A077F /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
+		3473B2DE258FB9C3005A077F /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
+		3473B308258FB9E1005A077F /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		3475B31C257FA99F00428052 /* Day8 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day8; sourceTree = BUILT_PRODUCTS_DIR; };
 		3475B31E257FA99F00428052 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3475B347257FA9E500428052 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
@@ -412,6 +431,15 @@
 			files = (
 				3473B22C258E5F66005A077F /* Algorithms in Frameworks */,
 				3473B22A258E5F66005A077F /* AdventOfCodeUtilities in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3473B293258FB948005A077F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3473B2C8258FB94E005A077F /* Algorithms in Frameworks */,
+				3473B2B2258FB94C005A077F /* AdventOfCodeUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +632,17 @@
 			path = Day19;
 			sourceTree = "<group>";
 		};
+		3473B297258FB948005A077F /* Day20 */ = {
+			isa = PBXGroup;
+			children = (
+				3473B298258FB948005A077F /* main.swift */,
+				3473B2DD258FB9AB005A077F /* puzzle_input.txt */,
+				3473B2DE258FB9C3005A077F /* Tile.swift */,
+				3473B308258FB9E1005A077F /* Point.swift */,
+			);
+			path = Day20;
+			sourceTree = "<group>";
+		};
 		3475B31D257FA99F00428052 /* Day8 */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,6 +712,7 @@
 				34D4C2E5258B87590080E851 /* Day17 */,
 				3473B145258CD950005A077F /* Day18 */,
 				3473B210258E5F5D005A077F /* Day19 */,
+				3473B297258FB948005A077F /* Day20 */,
 				3486A188257085A90040D96E /* Products */,
 				3432BC9C2577D1A100005E7D /* Frameworks */,
 			);
@@ -700,6 +740,7 @@
 				34D4C2E4258B87590080E851 /* Day17 */,
 				3473B144258CD950005A077F /* Day18 */,
 				3473B20F258E5F5D005A077F /* Day19 */,
+				3473B296258FB948005A077F /* Day20 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -969,6 +1010,27 @@
 			productReference = 3473B20F258E5F5D005A077F /* Day19 */;
 			productType = "com.apple.product-type.tool";
 		};
+		3473B295258FB948005A077F /* Day20 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3473B29A258FB948005A077F /* Build configuration list for PBXNativeTarget "Day20" */;
+			buildPhases = (
+				3473B292258FB948005A077F /* Sources */,
+				3473B293258FB948005A077F /* Frameworks */,
+				3473B294258FB948005A077F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Day20;
+			packageProductDependencies = (
+				3473B2B1258FB94C005A077F /* AdventOfCodeUtilities */,
+				3473B2C7258FB94E005A077F /* Algorithms */,
+			);
+			productName = Day20;
+			productReference = 3473B296258FB948005A077F /* Day20 */;
+			productType = "com.apple.product-type.tool";
+		};
 		3475B31B257FA99F00428052 /* Day8 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3475B322257FA99F00428052 /* Build configuration list for PBXNativeTarget "Day8" */;
@@ -1159,6 +1221,9 @@
 					3473B20E258E5F5D005A077F = {
 						CreatedOnToolsVersion = 12.3;
 					};
+					3473B295258FB948005A077F = {
+						CreatedOnToolsVersion = 12.3;
+					};
 					3475B31B257FA99F00428052 = {
 						CreatedOnToolsVersion = 12.0.1;
 					};
@@ -1220,6 +1285,7 @@
 				34D4C2E3258B87590080E851 /* Day17 */,
 				3473B143258CD950005A077F /* Day18 */,
 				3473B20E258E5F5D005A077F /* Day19 */,
+				3473B295258FB948005A077F /* Day20 */,
 			);
 		};
 /* End PBXProject section */
@@ -1328,6 +1394,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3473B212258E5F5D005A077F /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3473B292258FB948005A077F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3473B299258FB948005A077F /* main.swift in Sources */,
+				3473B2DF258FB9C3005A077F /* Tile.swift in Sources */,
+				3473B309258FB9E1005A077F /* Point.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1601,6 +1677,24 @@
 			name = Debug;
 		};
 		3473B215258E5F5E005A077F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3473B29B258FB948005A077F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3473B29C258FB948005A077F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -1961,6 +2055,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		3473B29A258FB948005A077F /* Build configuration list for PBXNativeTarget "Day20" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3473B29B258FB948005A077F /* Debug */,
+				3473B29C258FB948005A077F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3475B322257FA99F00428052 /* Build configuration list for PBXNativeTarget "Day8" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2147,6 +2250,16 @@
 			productName = AdventOfCodeUtilities;
 		};
 		3473B22B258E5F66005A077F /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3432BC7E2576844800005E7D /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+		3473B2B1258FB94C005A077F /* AdventOfCodeUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3486A1AC25708BA00040D96E /* XCRemoteSwiftPackageReference "AdventOfCodeUtilities" */;
+			productName = AdventOfCodeUtilities;
+		};
+		3473B2C7258FB94E005A077F /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3432BC7E2576844800005E7D /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
