@@ -80,6 +80,7 @@ struct Day19: DayCommand {
         return count
     }
     
+    /// The algorithm is taken from [this submission.](https://www.reddit.com/r/adventofcode/comments/kg1mro/2020_day_19_solutions/ggdb2rg?utm_source=share&utm_medium=web2x&context=3)
     func matches(in message: String, rulesByIndex: [Int: Rule], rule: Rule, position: Int) -> [Int] {
         var matches = [Int]()
         
