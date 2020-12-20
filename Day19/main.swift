@@ -29,7 +29,11 @@ struct Day19: DayCommand {
         
         let part1Solution = part1(with: messages, matching: rulesByIndex)
         printTitle("Part 1", level: .title1)
-        print("Count:", part1Solution)
+        print("Count:", part1Solution, terminator: "\n\n")
+        
+        let part2Solution = part2(with: messages, matching: rulesByIndex)
+        printTitle("Part 2", level: .title1)
+        print("Count:", part2Solution)
     }
     
     func rules(from text: String) -> [Int: Rule] {
@@ -62,22 +66,31 @@ struct Day19: DayCommand {
     }
     
     func part1(with messages: [String], matching rulesByIndex: [Int: Rule]) -> Int {
-        var count = 0
-        
-        for message in messages {
+        return messages.count(where: { message in
             let matches = self.matches(
                 in: message,
                 rulesByIndex: rulesByIndex,
                 rule: rulesByIndex[0]!,
                 position: 0
             )
-            
-            if matches.contains(message.count) {
-                count += 1
-            }
-        }
+            return matches.contains(message.count)
+        })
+    }
+    
+    func part2(with messages: [String], matching rulesByIndex: [Int: Rule]) -> Int {
+        var rulesByIndex = rulesByIndex
+        rulesByIndex[8] = [[.index(42)], [.index(42), .index(8)]]
+        rulesByIndex[11] = [[.index(42), .index(31)], [.index(42), .index(11), .index(31)]]
         
-        return count
+        return messages.count(where: { message in
+            let matches = self.matches(
+                in: message,
+                rulesByIndex: rulesByIndex,
+                rule: rulesByIndex[0]!,
+                position: 0
+            )
+            return matches.contains(message.count)
+        })
     }
     
     /// The algorithm is taken from [this submission.](https://www.reddit.com/r/adventofcode/comments/kg1mro/2020_day_19_solutions/ggdb2rg?utm_source=share&utm_medium=web2x&context=3)
