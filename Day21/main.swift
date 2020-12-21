@@ -57,7 +57,7 @@ struct Day21: DayCommand {
                     .reduce(into: [], { result, element in
                         let (index, listIndex) = element
                         
-                        let currentIngredients = ingredientsByListIndex[listIndex]!
+                        let currentIngredients = ingredientsByListIndex[listIndex]!.subtracting(allergenIngredients)
                         
                         if index == 0 {
                             result = currentIngredients
@@ -70,19 +70,6 @@ struct Day21: DayCommand {
                 if possibleIngredientsForAllergen.count == 1, let ingredient = possibleIngredientsForAllergen.first {
                     confirmedIngredientByAllergen[allergen] = ingredient
                     allergenIngredients.insert(ingredient)
-                    
-                    listIndicesByAllergen.removeValue(forKey: allergen)
-                    
-                    for (index, ingredients) in ingredientsByListIndex {
-                        let newValue = ingredients.subtracting([ingredient])
-                        
-                        if newValue.isEmpty {
-                            ingredientsByListIndex.removeValue(forKey: index)
-                        }
-                        else {
-                            ingredientsByListIndex[index] = newValue
-                        }
-                    }
                 }
             }
             
@@ -94,19 +81,6 @@ struct Day21: DayCommand {
                 if ingredients.count == 1, let ingredient = ingredients.first {
                     confirmedIngredientByAllergen[allergen] = ingredient
                     allergenIngredients.insert(ingredient)
-                    
-                    listIndicesByAllergen.removeValue(forKey: allergen)
-                    
-                    for (index, ingredients) in ingredientsByListIndex {
-                        let newValue = ingredients.subtracting([ingredient])
-                        
-                        if newValue.isEmpty {
-                            ingredientsByListIndex.removeValue(forKey: index)
-                        }
-                        else {
-                            ingredientsByListIndex[index] = newValue
-                        }
-                    }
                 }
             }
         }
