@@ -45,7 +45,7 @@ struct Day21: DayCommand {
                     .reduce(into: [], { result, element in
                         let (index, listIndex) = element
                         
-                        let currentIngredients = ingredientsByListIndex[listIndex]!.subtracting(Set(confirmedIngredientByAllergen.values))
+                        let currentIngredients = ingredientsByListIndex[listIndex]!.subtracting(confirmedIngredientByAllergen.values)
                         
                         if index == 0 {
                             result = currentIngredients
@@ -61,7 +61,7 @@ struct Day21: DayCommand {
             }
         }
         
-        let nonAllergenIngredients = allIngredients.subtracting(Set(confirmedIngredientByAllergen.values))
+        let nonAllergenIngredients = allIngredients.subtracting(confirmedIngredientByAllergen.values)
         
         let part1Solution = nonAllergenIngredients.reduce(into: 0, { result, ingredient in
             result += listIndicesByIngredient[ingredient, default: []].count
