@@ -8,8 +8,8 @@
 import Foundation
 
 struct IngredientList {
-    var ingredients: Set<String>
-    var knownAllergens: Set<String>
+    var ingredients: Set<Ingredient>
+    var knownAllergens: Set<Allergen>
 }
 
 extension IngredientList {
@@ -18,7 +18,7 @@ extension IngredientList {
         
         switch parts.count {
         case 2:
-            self.knownAllergens = Set(parts[1].removingSuffix(")").components(separatedBy: ", "))
+            self.knownAllergens = Set(parts[1].removingSuffix(")").components(separatedBy: ", ").map({ Allergen(rawValue: $0) }))
             
         case 1:
             self.knownAllergens = []
@@ -27,7 +27,7 @@ extension IngredientList {
             return nil
         }
         
-        self.ingredients = Set(parts[0].components(separatedBy: " "))
+        self.ingredients = Set(parts[0].components(separatedBy: " ").map({ Ingredient(rawValue: $0) }))
     }
 }
 
@@ -39,4 +39,30 @@ extension String {
         
         return String(self.dropLast(suffix.count))
     }
+}
+
+struct Allergen {
+    let rawValue: String
+}
+
+extension Allergen: Hashable {}
+
+extension Allergen: Equatable {}
+
+extension Allergen: Comparable {
+    static func < (lhs: Allergen, rhs: Allergen) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
+struct Ingredient {
+    let rawValue: String
+}
+
+extension Ingredient: Hashable {}
+
+extension Ingredient: Equatable {}
+
+extension Ingredient: CustomStringConvertible {
+    var description: String { rawValue }
 }

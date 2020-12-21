@@ -17,11 +17,11 @@ struct Day21: DayCommand {
         let lines = try readLines()
         let ingredientLists = lines.compactMap({ IngredientList(rawValue: $0) })
         
-        var ingredientsByListIndex = [Int: Set<String>]()
-        var listIndicesByAllergen = [String: Set<Int>]()
-        var allIngredients = Set<String>()
-        var allKnownAllergens = Set<String>()
-        var listIndicesByIngredient = [String: Set<Int>]()
+        var ingredientsByListIndex = [Int: Set<Ingredient>]()
+        var listIndicesByAllergen = [Allergen: Set<Int>]()
+        var allIngredients = Set<Ingredient>()
+        var allKnownAllergens = Set<Allergen>()
+        var listIndicesByIngredient = [Ingredient: Set<Int>]()
         
         for (index, ingredientList) in ingredientLists.enumerated() {
             ingredientsByListIndex[index] = ingredientList.ingredients
@@ -37,11 +37,11 @@ struct Day21: DayCommand {
             }
         }
         
-        var confirmedIngredientByAllergen = [String: String]()
+        var confirmedIngredientByAllergen = [Allergen: Ingredient]()
         
         while Set(confirmedIngredientByAllergen.keys) != allKnownAllergens {
             for (allergen, listIndices) in listIndicesByAllergen {
-                let possibleIngredientsForAllergen: Set<String> = listIndices.enumerated()
+                let possibleIngredientsForAllergen: Set<Ingredient> = listIndices.enumerated()
                     .reduce(into: [], { result, element in
                         let (index, listIndex) = element
                         
@@ -72,7 +72,7 @@ struct Day21: DayCommand {
         
         let part2Solution = confirmedIngredientByAllergen
             .sorted(by: { $0.key < $1.key })
-            .map(\.value)
+            .map(\.value.rawValue)
             .joined(separator: ",")
         
         printTitle("Part2", level: .title1)
