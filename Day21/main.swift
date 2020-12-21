@@ -37,16 +37,15 @@ struct Day21: DayCommand {
             }
         }
         
-        var allergenIngredients = Set<String>()
         var confirmedIngredientByAllergen = [String: String]()
         
         while Set(confirmedIngredientByAllergen.keys) != allKnownAllergens {
-            for (allergen, listIndices) in listIndicesByAllergen.filter({ $1.count > 1 }) {
+            for (allergen, listIndices) in listIndicesByAllergen {
                 let possibleIngredientsForAllergen: Set<String> = listIndices.enumerated()
                     .reduce(into: [], { result, element in
                         let (index, listIndex) = element
                         
-                        let currentIngredients = ingredientsByListIndex[listIndex]!.subtracting(allergenIngredients)
+                        let currentIngredients = ingredientsByListIndex[listIndex]!.subtracting(Set(confirmedIngredientByAllergen.values))
                         
                         if index == 0 {
                             result = currentIngredients
@@ -58,23 +57,11 @@ struct Day21: DayCommand {
                 
                 if possibleIngredientsForAllergen.count == 1, let ingredient = possibleIngredientsForAllergen.first {
                     confirmedIngredientByAllergen[allergen] = ingredient
-                    allergenIngredients.insert(ingredient)
-                }
-            }
-            
-            for (allergen, listIndices) in listIndicesByAllergen.filter({ $1.count == 1 }) {
-                let index = listIndices.first!
-                
-                let ingredients = ingredientsByListIndex[index]!
-                
-                if ingredients.count == 1, let ingredient = ingredients.first {
-                    confirmedIngredientByAllergen[allergen] = ingredient
-                    allergenIngredients.insert(ingredient)
                 }
             }
         }
         
-        let nonAllergenIngredients = allIngredients.subtracting(allergenIngredients)
+        let nonAllergenIngredients = allIngredients.subtracting(Set(confirmedIngredientByAllergen.values))
         
         let part1Solution = nonAllergenIngredients.reduce(into: 0, { result, ingredient in
             result += listIndicesByIngredient[ingredient, default: []].count
@@ -85,10 +72,7 @@ struct Day21: DayCommand {
         
         let part2Solution = confirmedIngredientByAllergen
             .sorted(by: { $0.key < $1.key })
-            .reduce(into: [], { result, element in
-                let (_, ingredient) = element
-                result.append(ingredient)
-            })
+            .map(\.value)
             .joined(separator: ",")
         
         printTitle("Part2", level: .title1)
