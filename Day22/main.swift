@@ -14,34 +14,29 @@ struct Day22: DayCommand {
     var puzzleInputPath: String
     
     func run() throws {
-        let decks = try readFile()
-            .components(separatedBy: "\n\n")
-            .compactMap({ Deck(rawValue: $0) })
+        let state = State(rawValue: try readFile())!
         
-        let part1Solution = part1(using: (decks[0], decks[1]))
+        let part1Solution = part1(using: state)
         printTitle("Part 1", level: .title1)
         print("Score:", part1Solution, terminator: "\n\n")
     }
     
-    func part1(using decks: (first: Deck, second: Deck)) -> Int {
-        var firstDeck = decks.first
-        var secondDeck = decks.second
+    func part1(using state: State) -> Int {
+        var state = state
         
-        while firstDeck.isEmpty == false, secondDeck.isEmpty == false {
-            let firstTopCard = firstDeck.cards.removeFirst()
-            let secondTopCard = secondDeck.cards.removeFirst()
+        while state.canPlayRound {
+            let firstTopCard = state.first.cards.removeFirst()
+            let secondTopCard = state.second.cards.removeFirst()
             
             if firstTopCard > secondTopCard {
-                firstDeck.cards.append(firstTopCard)
-                firstDeck.cards.append(secondTopCard)
+                state.first.cards.append(contentsOf: [firstTopCard, secondTopCard])
             }
             else {
-                secondDeck.cards.append(secondTopCard)
-                secondDeck.cards.append(firstTopCard)
+                state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
             }
         }
         
-        return [firstDeck, secondDeck]
+        return [state.first, state.second]
             .first(where: { $0.isEmpty == false })!
             .score()
     }

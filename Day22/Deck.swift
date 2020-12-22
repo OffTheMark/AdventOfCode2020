@@ -8,6 +8,30 @@
 import Foundation
 import SwiftDataStructures
 
+struct State {
+    var first: Deck
+    var second: Deck
+    
+    var canPlayRound: Bool { [first, second].allSatisfy({ $0.isEmpty == false }) }
+}
+
+extension State {
+    init?(rawValue: String) {
+        let deckRawValues = rawValue.components(separatedBy: "\n\n")
+        
+        guard deckRawValues.count == 2 else {
+            return nil
+        }
+        
+        guard let first = Deck(rawValue: deckRawValues[0]), let second = Deck(rawValue: deckRawValues[1]) else {
+            return nil
+        }
+        
+        self.first = first
+        self.second = second
+    }
+}
+
 struct Deck {
     let playerNumber: Int
     var cards: Deque<Int>
