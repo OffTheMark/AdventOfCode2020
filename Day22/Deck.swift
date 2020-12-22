@@ -32,8 +32,10 @@ extension State {
     }
 }
 
+extension State: Hashable {}
+
 struct Deck {
-    let playerNumber: Int
+    let player: Player
     var cards: Deque<Int>
     
     var isEmpty: Bool { cards.isEmpty }
@@ -56,14 +58,17 @@ extension Deck {
         }
         
         let firstLine = lines.removeFirst()
-        guard let playerNumber = Int(firstLine.removingPrefix("Player ").removingSuffix(":")) else {
+        guard let playerNumber = Int(firstLine.removingPrefix("Player ").removingSuffix(":")),
+              let player = Player(rawValue: playerNumber) else {
             return nil
         }
         
-        self.playerNumber = playerNumber
+        self.player = player
         self.cards = Deque(lines.compactMap({ Int($0) }))
     }
 }
+
+extension Deck: Hashable {}
 
 extension String {
     func removingPrefix(_ prefix: String) -> String {
@@ -80,5 +85,83 @@ extension String {
         }
         
         return String(self.dropLast(suffix.count))
+    }
+}
+
+enum Player: Int {
+    case first = 1
+    case second = 2
+}
+
+struct Game {
+    private static var currentGameNumber = 1
+    
+    let number: Int
+    
+    var state: State
+    
+    init(state: State) {
+        self.number = Self.currentGameNumber
+        self.state = state
+        
+        Self.currentGameNumber += 1
+    }
+    
+    mutating func play() -> Deck {
+        var currentRound = 1
+        var visitedStates = Set<State>()
+        
+        while state.canPlayRound {
+            let preRoundState = state
+            
+            if visitedStates.contains(state) {
+                return state.first
+            }
+            
+            let firstTopCard = state.first.cards.removeFirst()
+            let secondTopCard = state.second.cards.removeFirst()
+            
+            let shouldPlaySubgame = zip([state.first, state.second], [firstTopCard, secondTopCard])
+                .allSatisfy({ state, card in
+                    state.cards.count >= card
+                })
+            
+            let roundWinner: Player
+            if shouldPlaySubgame {
+                let firstDeck = Deck(
+                    player: state.first.player,
+                    cards: Deque(state.first.cards.prefix(firstTopCard))
+                )
+                let secondDeck = Deck(
+                    player: state.second.player,
+                    cards: Deque(state.second.cards.prefix(secondTopCard))
+                )
+                let stateForSubgame = State(first: firstDeck, second: secondDeck)
+                var game = Game(state: stateForSubgame)
+                let winner = game.play()
+                
+                roundWinner = winner.player
+            }
+            else if firstTopCard > secondTopCard {
+                roundWinner = .first
+            }
+            else {
+                roundWinner = .second
+            }
+            
+            switch roundWinner {
+            case .first:
+                state.first.cards.append(contentsOf: [firstTopCard, secondTopCard])
+                
+            case .second:
+                state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
+            }
+            
+            visitedStates.insert(preRoundState)
+            currentRound += 1
+        }
+        
+        let winner = [state.first, state.second].first(where: { $0.isEmpty == false })!
+        return winner
     }
 }

@@ -19,6 +19,10 @@ struct Day22: DayCommand {
         let part1Solution = part1(using: state)
         printTitle("Part 1", level: .title1)
         print("Score:", part1Solution, terminator: "\n\n")
+        
+        let part2Solution = part2(using: state)
+        printTitle("Part 2", level: .title1)
+        print("Score:", part2Solution)
     }
     
     func part1(using state: State) -> Int {
@@ -28,7 +32,9 @@ struct Day22: DayCommand {
             let firstTopCard = state.first.cards.removeFirst()
             let secondTopCard = state.second.cards.removeFirst()
             
-            if firstTopCard > secondTopCard {
+            let firstPlayerWon = firstTopCard > secondTopCard
+            
+            if firstPlayerWon {
                 state.first.cards.append(contentsOf: [firstTopCard, secondTopCard])
             }
             else {
@@ -39,6 +45,13 @@ struct Day22: DayCommand {
         return [state.first, state.second]
             .first(where: { $0.isEmpty == false })!
             .score()
+    }
+    
+    func part2(using state: State) -> Int {
+        var game = Game(state: state)
+        let winner = game.play()
+        
+        return winner.score()
     }
 }
 
