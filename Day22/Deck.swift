@@ -13,6 +13,15 @@ struct State {
     var second: Deck
     
     var canPlayRound: Bool { [first, second].allSatisfy({ $0.isEmpty == false }) }
+    
+    func snapshot() -> Snapshot {
+        Snapshot(firstScore: first.score(), secondScore: second.score())
+    }
+    
+    struct Snapshot {
+        let firstScore: Int
+        let secondScore: Int
+    }
 }
 
 extension State {
@@ -31,6 +40,8 @@ extension State {
         self.second = second
     }
 }
+
+extension State.Snapshot: Hashable {}
 
 extension State: Hashable {}
 
@@ -111,8 +122,8 @@ struct CombatGame {
             switch roundWinner  {
             case .first:
                 state.first.cards.append(contentsOf: [firstTopCard, secondTopCard])
-                case .second:
-                    state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
+            case .second:
+                state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
             }
         }
         
@@ -136,12 +147,13 @@ struct RecurseCombatGame {
     
     mutating func play() -> Deck {
         var currentRound = 1
-        var visitedStates = Set<State>()
+        var visitedSnapshots = Set<State.Snapshot>()
         
         while state.canPlayRound {
-            let preRoundState = state
+            let snapshot = state.snapshot()
+            let (wasInserted, _) = visitedSnapshots.insert(snapshot)
             
-            if visitedStates.contains(state) {
+            if wasInserted == false {
                 return state.first
             }
             
@@ -184,7 +196,6 @@ struct RecurseCombatGame {
                 state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
             }
             
-            visitedStates.insert(preRoundState)
             currentRound += 1
         }
         
