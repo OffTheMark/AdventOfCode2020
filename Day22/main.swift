@@ -26,29 +26,14 @@ struct Day22: DayCommand {
     }
     
     func part1(using state: State) -> Int {
-        var state = state
+        var game = CombatGame(state: state)
+        let winner = game.play()
         
-        while state.canPlayRound {
-            let firstTopCard = state.first.cards.removeFirst()
-            let secondTopCard = state.second.cards.removeFirst()
-            
-            let firstPlayerWon = firstTopCard > secondTopCard
-            
-            if firstPlayerWon {
-                state.first.cards.append(contentsOf: [firstTopCard, secondTopCard])
-            }
-            else {
-                state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
-            }
-        }
-        
-        return [state.first, state.second]
-            .first(where: { $0.isEmpty == false })!
-            .score()
+        return winner.score()
     }
     
     func part2(using state: State) -> Int {
-        var game = Game(state: state)
+        var game = RecurseCombatGame(state: state)
         let winner = game.play()
         
         return winner.score()

@@ -93,7 +93,34 @@ enum Player: Int {
     case second = 2
 }
 
-struct Game {
+struct CombatGame {
+    var state: State
+    
+    mutating func play() -> Deck {
+        while state.canPlayRound {
+            let firstTopCard = state.first.cards.removeFirst()
+            let secondTopCard = state.second.cards.removeFirst()
+            
+            let roundWinner: Player
+            if firstTopCard > secondTopCard {
+                roundWinner = .first
+            } else {
+                roundWinner = .second
+            }
+            
+            switch roundWinner  {
+            case .first:
+                state.first.cards.append(contentsOf: [firstTopCard, secondTopCard])
+                case .second:
+                    state.second.cards.append(contentsOf: [secondTopCard, firstTopCard])
+            }
+        }
+        
+        return [state.first, state.second].first(where: { $0.isEmpty == false })!
+    }
+}
+
+struct RecurseCombatGame {
     private static var currentGameNumber = 1
     
     let number: Int
@@ -137,7 +164,7 @@ struct Game {
                     cards: Deque(state.second.cards.prefix(secondTopCard))
                 )
                 let stateForSubgame = State(first: firstDeck, second: secondDeck)
-                var game = Game(state: stateForSubgame)
+                var game = RecurseCombatGame(state: stateForSubgame)
                 let winner = game.play()
                 
                 roundWinner = winner.player
