@@ -61,19 +61,18 @@ struct Day23: DayCommand {
                 removedValues.insert(removedTail.value)
             }
             
-            var destinationCup = head.value
-            repeat {
+            var destinationCup = head.value - 1
+            if destinationCup < 1 {
+                destinationCup = 9
+            }
+            
+            while removedValues.contains(destinationCup) {
                 destinationCup -= 1
                 
-                if destinationCup < 1 {
+                if destinationCup == 0 {
                     destinationCup = 9
                 }
-                
-                if removedValues.contains(destinationCup) == false {
-                    break
-                }
             }
-            while true
             
             let destinationNode = nodesByCup[destinationCup]!
             let nodeAfterDestination = destinationNode.next!
@@ -131,19 +130,18 @@ struct Day23: DayCommand {
                 removedValues.insert(removedTail.value)
             }
             
-            var destinationCup = head.value
-            repeat {
+            var destinationCup = head.value - 1
+            if destinationCup < 1 {
+                destinationCup = 1_000_000
+            }
+            
+            while removedValues.contains(destinationCup) {
                 destinationCup -= 1
                 
-                if destinationCup < 1 {
+                if destinationCup == 0 {
                     destinationCup = 1_000_000
                 }
-                
-                if removedValues.contains(destinationCup) == false {
-                    break
-                }
             }
-            while true
             
             let destinationNode = nodesByCup[destinationCup]!
             let nodeAfterDestination = destinationNode.next!
