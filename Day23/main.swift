@@ -26,12 +26,12 @@ struct Day23: DayCommand {
         let content = try readFile()
         let numbers = content.compactMap({ Int(String($0)) })
         
-        let part1Solution = part1(with: numbers)
         printTitle("Part 1", level: .title1)
+        let part1Solution = part1(with: numbers)
         print("Labels on cups:", part1Solution, terminator: "\n\n")
         
-        let part2Solution = part2(with: numbers)
         printTitle("Part 2", level: .title1)
+        let part2Solution = part2(with: numbers)
         print("Product:", part2Solution)
     }
     
@@ -120,9 +120,15 @@ struct Day23: DayCommand {
         
         previous.next = head
         
-        for _ in 0 ..< 10_000_000 {
-            var removedValues = Set<Int>()
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        
+        for turn in 0 ..< 10_000_000 {
+            if turn.isMultiple(of: 100_000) {
+                print("Progress:", formatter.string(from: NSNumber(value: Float(turn) / 10_000_000))!)
+            }
             
+            var removedValues = Set<Int>()
             let removedHead = head.next!
             var removedTail = head
             for _ in 0 ..< 3 {
@@ -153,6 +159,7 @@ struct Day23: DayCommand {
             
             head = head.next!
         }
+        printTitle("Progress: \(formatter.string(from: 1)!)", level: .title2)
         
         var result = 1
         var current = nodesByCup[1]!
