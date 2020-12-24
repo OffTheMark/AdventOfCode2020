@@ -13,6 +13,12 @@ struct CubePoint {
     var z: Int
     
     static let zero = CubePoint(x: 0, y: 0, z: 0)
+    
+    var neighbors: Set<CubePoint> {
+        return Direction.allCases.reduce(into: Set<CubePoint>(), { result, direction in
+            result.insert(self + direction.vector)
+        })
+    }
 }
 
 extension CubePoint: Hashable {}
@@ -79,6 +85,8 @@ enum Direction: String {
         }
     }
 }
+
+extension Direction: CaseIterable {}
 
 enum Tile {
     case white
