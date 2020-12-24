@@ -17,17 +17,17 @@ struct Day24: DayCommand {
         let lines = try readLines()
         
         printTitle("Part 1", level: .title1)
-        let tilesByPoint = part1(with: lines)
-        let part1Solution = tilesByPoint.count(where: { _, tile in tile == .black })
+        let blackTiles = part1(with: lines)
+        let part1Solution = blackTiles.count
         print("Count:", part1Solution, terminator: "\n\n")
         
         printTitle("Part2", level: .title1)
-        let part2Solution = part2(with: tilesByPoint)
+        let part2Solution = part2(with: blackTiles)
         print("Count:", part2Solution)
     }
     
-    func part1(with lines: [String]) -> [CubePoint: Tile] {
-        var tilesByPoint: [CubePoint: Tile] = [.zero: .white]
+    func part1(with lines: [String]) -> Set<CubePoint> {
+        var blackTiles = Set<CubePoint>()
         
         for line in lines {
             var currentIndex = line.startIndex
@@ -55,14 +55,19 @@ struct Day24: DayCommand {
             
             let point = CubePoint.zero + vector
             
-            tilesByPoint[point, default: .white].flip()
+            if blackTiles.contains(point) {
+                blackTiles.remove(point)
+            }
+            else {
+                blackTiles.insert(point)
+            }
         }
         
-        return tilesByPoint
+        return blackTiles
     }
     
-    func part2(with tilesByPoint: [CubePoint: Tile]) -> Int {
-        var tilesByPoint = tilesByPoint
+    func part2(with blackTiles: Set<CubePoint>) -> Int {
+        var blackTiles = blackTiles
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
@@ -70,44 +75,41 @@ struct Day24: DayCommand {
         for turn in 0 ..< 100 {
             print("Progress:", formatter.string(from: NSNumber(value: Float(turn) / 100))!)
             
-            let pointsThatCanChange: Set<CubePoint> = tilesByPoint.keys
-                .reduce(into: [], { result, point in
-                    guard tilesByPoint[point] == .black else {
-                        return
-                    }
-                    
-                    result.insert(point)
-                    result.formUnion(point.neighbors)
-                })
+            let pointsThatCanChange: Set<CubePoint> = blackTiles.reduce(into: [], { result, point in
+                result.insert(point)
+                result.formUnion(point.neighbors)
+            })
             
-            var diff = [CubePoint: Tile]()
+            var addedBlackTiles = Set<CubePoint>()
+            var removedBlackTiles = Set<CubePoint>()
             
             for point in pointsThatCanChange {
-                let tile = tilesByPoint[point, default: .white]
                 let numberOfAdjacentBlackTiles = point.neighbors
                     .count(where: { neighbor in
-                        tilesByPoint[neighbor, default: .white] == .black
+                        blackTiles.contains(neighbor)
                     })
                 
-                switch (tile, numberOfAdjacentBlackTiles) {
-                case (.black, 0), (.black, 3...):
-                    diff[point] = .white
+                switch (blackTiles.contains(point), numberOfAdjacentBlackTiles) {
+                case (true, 0), (true, 3...):
+                    removedBlackTiles.insert(point)
                     
-                case (.white, 2):
-                    diff[point] = .black
+                case (false, 2):
+                    addedBlackTiles.insert(point)
                     
                 default:
-                    diff[point] = tile
+                    break
                 }
             }
             
-            tilesByPoint.merge(diff, uniquingKeysWith: { _, newest in newest })
-            print("Number of black tiles:", tilesByPoint.count(where: { _, tile in tile == .black }))
+            blackTiles.formSymmetricDifference(removedBlackTiles)
+            blackTiles.formUnion(addedBlackTiles)
+            
+            print("Number of black tiles:", blackTiles.count)
         }
         
         printTitle("Progress: \(formatter.string(from: 1)!)", level: .title2)
         
-        return tilesByPoint.count(where: { _, tile in tile == .black })
+        return blackTiles.count
     }
 }
 
