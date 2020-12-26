@@ -49,6 +49,7 @@ struct Day20: DayCommand {
         
         printTitle("Part 2", level: .title1)
         let part2Solution = part2(with: tiles, edgeMatchesByTile: edgesMatchesByTile)
+        print("Count:", part2Solution)
     }
     
     func part1(with tiles: [Tile]) -> [Int: [EdgeMatch]] {
@@ -345,6 +346,11 @@ struct Day20: DayCommand {
             assembledTiles.append(gridRow)
         }
         
+        assembledTiles = assembledTiles.map({ line in
+            return line.map({ $0.removingBorder() })
+        })
+        
+        let grid = Grid(assembledTiles: assembledTiles)
         
         return 0
     }

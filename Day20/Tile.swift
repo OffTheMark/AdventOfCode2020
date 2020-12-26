@@ -9,15 +9,17 @@ import Foundation
 import Algorithms
 
 struct Tile {
+    typealias Edge = String
+    
     let identifier: Int
     let contents: [String]
     
-    var topEdge: String { contents.first! }
-    var bottomEdge: String { contents.last! }
-    var leftEdge: String { String(contents.map({ $0.first! })) }
-    var rightEdge: String { String(contents.map({ $0.last! })) }
+    var topEdge: Edge { contents.first! }
+    var bottomEdge: Edge { contents.last! }
+    var leftEdge: Edge { String(contents.map({ $0.first! })) }
+    var rightEdge: Edge { String(contents.map({ $0.last! })) }
     
-    var allEdges: [String] { [topEdge, rightEdge, bottomEdge, leftEdge] }
+    var allEdges: [Edge] { [topEdge, rightEdge, bottomEdge, leftEdge] }
     
     func flippedVertically() -> Tile {
         let newContents = Array(self.contents.reversed())
@@ -65,6 +67,14 @@ struct Tile {
             return tile.flippedVertically()
         })
     }
+    
+    func removingBorder() -> Tile {
+        let newContents = contents.dropFirst().dropLast()
+            .map({ line in
+                return String(line.dropFirst().dropLast())
+            })
+        return Tile(identifier: identifier, contents: newContents)
+    }
 }
 
 extension Tile {
@@ -82,57 +92,6 @@ extension Tile {
         
         self.identifier = identifier
         self.contents = lines
-    }
-}
-
-struct Grid {
-    let contents: [String]
-    
-    func flippedVertically() -> Grid {
-        let newContents = Array(self.contents.reversed())
-        return Grid(contents: newContents)
-    }
-    
-    func flippedHorizontally() -> Grid {
-        let newContents = self.contents.map({ String($0.reversed()) })
-        return Grid(contents: newContents)
-    }
-    
-    func rotatedLeft() -> Grid {
-        var newContents = [String]()
-        let width = contents[0].count
-        
-        for columnIndex in (0 ..< width).reversed() {
-            var newLine = ""
-            
-            for lineIndex in self.contents.indices {
-                let line = self.contents[lineIndex]
-                let stringIndex = line.index(line.startIndex, offsetBy: columnIndex)
-                
-                newLine.append(line[stringIndex])
-            }
-            
-            newContents.append(newLine)
-        }
-        
-        return Grid(contents: newContents)
-    }
-    
-    var allArrangements: [Grid] {
-        let arrangements = [
-            self,
-            self.rotatedLeft(),
-            self.rotatedLeft().rotatedLeft(),
-            self.rotatedLeft().rotatedLeft().rotatedLeft()
-        ]
-        
-        return product([false, true], arrangements).map({ shouldFlip, grid in
-            if shouldFlip == false {
-                return grid
-            }
-            
-            return grid.flippedVertically()
-        })
     }
 }
 

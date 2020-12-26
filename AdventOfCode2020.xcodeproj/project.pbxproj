@@ -82,6 +82,7 @@
 		34D02CD02594E0700026188A /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D02CCF2594E0700026188A /* Grid.swift */; };
 		34D02CF02596265C0026188A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D02CEF2596265C0026188A /* main.swift */; };
 		34D02D0E2596266B0026188A /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 34D02D0D2596266B0026188A /* AdventOfCodeUtilities */; };
+		34D02D2A2597E78F0026188A /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D02D292597E78F0026188A /* Grid.swift */; };
 		34D4C2E7258B87590080E851 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D4C2E6258B87590080E851 /* main.swift */; };
 		34D4C2FD258B875D0080E851 /* AdventOfCodeUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 34D4C2FC258B875D0080E851 /* AdventOfCodeUtilities */; };
 		34D4C310258B87600080E851 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 34D4C30F258B87600080E851 /* Algorithms */; };
@@ -406,6 +407,7 @@
 		34D02CED2596265C0026188A /* Day25 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day25; sourceTree = BUILT_PRODUCTS_DIR; };
 		34D02CEF2596265C0026188A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		34D02D0F2596268E0026188A /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
+		34D02D292597E78F0026188A /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		34D4C2E4258B87590080E851 /* Day17 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Day17; sourceTree = BUILT_PRODUCTS_DIR; };
 		34D4C2E6258B87590080E851 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		34D4C311258B877B0080E851 /* puzzle_input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = puzzle_input.txt; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 				3473B2DD258FB9AB005A077F /* puzzle_input.txt */,
 				3473B2DE258FB9C3005A077F /* Tile.swift */,
 				3473B308258FB9E1005A077F /* Point.swift */,
+				34D02D292597E78F0026188A /* Grid.swift */,
 			);
 			path = Day20;
 			sourceTree = "<group>";
@@ -1703,6 +1706,7 @@
 				3473B299258FB948005A077F /* main.swift in Sources */,
 				3473B2DF258FB9C3005A077F /* Tile.swift in Sources */,
 				3473B309258FB9E1005A077F /* Point.swift in Sources */,
+				34D02D2A2597E78F0026188A /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
