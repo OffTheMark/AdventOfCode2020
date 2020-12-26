@@ -74,6 +74,10 @@ struct AffineTransform {
         concatenating(.translation(x: x, y: y))
     }
     
+    func scaledBy(x: Double, y: Double) -> AffineTransform {
+        concatenating(.scaleBy(x: x, y: y))
+    }
+    
     static let identity = AffineTransform(
         a: 1,
         b: 0,
@@ -110,6 +114,17 @@ struct AffineTransform {
             d: 1,
             tx: x,
             ty: y
+        )
+    }
+    
+    static func scaleBy(x: Double, y: Double) -> AffineTransform {
+        AffineTransform(
+            a: x,
+            b: 0,
+            c: 0,
+            d: y,
+            tx: 0,
+            ty: 0
         )
     }
 }

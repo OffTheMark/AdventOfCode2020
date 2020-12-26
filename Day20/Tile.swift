@@ -16,6 +16,40 @@ struct Tile {
     
     var topLeft: Point { origin }
     
+    var center: Point {
+        Point(x: size.width / 2, y: size.width / 2)
+    }
+    
+    func flippedVertically() -> Tile {
+        let center = self.center
+        let transform = AffineTransform.translation(x: center.x, y: center.y)
+            .scaledBy(x: 1, y: -1)
+            .translatedBy(x: -center.x, y: -center.y)
+        
+        let transformedContents: [Point: Character] = contents.reduce(into: [:], { result, element in
+            let (point, character) = element
+            let transformedPoint = point.applying(transform)
+            result[transformedPoint] = character
+        })
+        
+        return Tile(identifier: identifier, contents: transformedContents, size: size)
+    }
+    
+    func flippedHorizontally() -> Tile {
+        let center = self.center
+        let transform = AffineTransform.translation(x: center.x, y: center.y)
+            .scaledBy(x: -1, y: 1)
+            .translatedBy(x: -center.x, y: -center.y)
+        
+        let transformedContents: [Point: Character] = contents.reduce(into: [:], { result, element in
+            let (point, character) = element
+            let transformedPoint = point.applying(transform)
+            result[transformedPoint] = character
+        })
+        
+        return Tile(identifier: identifier, contents: transformedContents, size: size)
+    }
+    
     var topRight: Point {
         var point = origin
         point.x += size.width
