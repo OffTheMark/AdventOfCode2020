@@ -9,99 +9,14 @@ import Foundation
 
 struct Tile {
     let identifier: Int
-    let contents: [Point: Character]
+    let contents: [String]
     
-    let origin: Point = .zero
-    let size: Size
+    var topEdge: String { contents.first! }
+    var bottomEdge: String { contents.last! }
+    var leftEdge: String { String(contents.map({ $0.first! })) }
+    var rightEdge: String { String(contents.map({ $0.last! })) }
     
-    var topLeft: Point { origin }
-    
-    var center: Point {
-        Point(x: size.width / 2, y: size.width / 2)
-    }
-    
-    func flippedVertically() -> Tile {
-        let center = self.center
-        let transform = AffineTransform.translation(x: center.x, y: center.y)
-            .scaledBy(x: 1, y: -1)
-            .translatedBy(x: -center.x, y: -center.y)
-        
-        let transformedContents: [Point: Character] = contents.reduce(into: [:], { result, element in
-            let (point, character) = element
-            let transformedPoint = point.applying(transform)
-            result[transformedPoint] = character
-        })
-        
-        return Tile(identifier: identifier, contents: transformedContents, size: size)
-    }
-    
-    func flippedHorizontally() -> Tile {
-        let center = self.center
-        let transform = AffineTransform.translation(x: center.x, y: center.y)
-            .scaledBy(x: -1, y: 1)
-            .translatedBy(x: -center.x, y: -center.y)
-        
-        let transformedContents: [Point: Character] = contents.reduce(into: [:], { result, element in
-            let (point, character) = element
-            let transformedPoint = point.applying(transform)
-            result[transformedPoint] = character
-        })
-        
-        return Tile(identifier: identifier, contents: transformedContents, size: size)
-    }
-    
-    var topRight: Point {
-        var point = origin
-        point.x += size.width
-        return point
-    }
-    
-    var bottomLeft: Point {
-        var point = origin
-        point.y += size.height
-        return point
-    }
-    
-    var bottomRight: Point {
-        var point = origin
-        point.x += size.width
-        point.y += size.height
-        return point
-    }
-    
-    var topEdge: String {
-        return (0 ... Int(size.width)).reduce(into: "", { edge, offset in
-            var point = origin
-            point.x += Double(offset)
-            edge.append(contents[point, default: "."])
-        })
-    }
-    
-    var bottomEdge: String {
-        return (0 ... Int(size.width)).reduce(into: "", { edge, offset in
-            var point = bottomLeft
-            point.x += Double(offset)
-            edge.append(contents[point, default: "."])
-        })
-    }
-    
-    var leftEdge: String {
-        return (0 ... Int(size.height)).reduce(into: "", { edge, offset in
-            var point = origin
-            point.y += Double(offset)
-            edge.append(contents[point, default: "."])
-        })
-    }
-    
-    var rightEdge: String {
-        return (0 ... Int(size.height)).reduce(into: "", { edge, offset in
-            var point = topRight
-            point.y += Double(offset)
-            edge.append(contents[point, default: "."])
-        })
-    }
-    
-    var allEdges: [String] { [topEdge, leftEdge, bottomEdge, rightEdge]  }
+    var allEdges: [String] { [topEdge, rightEdge, bottomEdge, leftEdge] }
 }
 
 extension Tile {
@@ -117,24 +32,8 @@ extension Tile {
             return nil
         }
         
-        var contents = [Point: Character]()
-        
-        var maxX = 0
-        var maxY = 0
-        for (y, line) in lines.enumerated() {
-            for (x, character) in line.enumerated() {
-                let point = Point(x: x, y: y)
-                contents[point] = character
-                
-                maxX = max(maxX, x)
-            }
-            
-            maxY = max(maxY, y)
-        }
-        
         self.identifier = identifier
-        self.contents = contents
-        self.size = Size(width: maxX, height: maxY)
+        self.contents = lines
     }
 }
 
