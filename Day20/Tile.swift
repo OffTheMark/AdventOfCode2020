@@ -16,6 +16,36 @@ struct Tile {
     var leftEdge: String { String(contents.map({ $0.first! })) }
     var rightEdge: String { String(contents.map({ $0.last! })) }
     
+    func flippedVertically() -> Tile {
+        let contents = Array(self.contents.reversed())
+        return Tile(identifier: identifier, contents: contents)
+    }
+    
+    func flippedHorizontally() -> Tile {
+        let contents = self.contents.map({ String($0.reversed()) })
+        return Tile(identifier: identifier, contents: contents)
+    }
+    
+    func rotatedLeft() -> Tile {
+        var newContents = [String]()
+        let width = contents[0].count
+        
+        for columnIndex in (0 ..< width).reversed() {
+            var newLine = ""
+            
+            for lineIndex in self.contents.indices {
+                let line = self.contents[lineIndex]
+                let stringIndex = line.index(line.startIndex, offsetBy: columnIndex)
+                
+                newLine.append(line[stringIndex])
+            }
+            
+            newContents.append(newLine)
+        }
+        
+        return Tile(identifier: identifier, contents: newContents)
+    }
+    
     var allEdges: [String] { [topEdge, rightEdge, bottomEdge, leftEdge] }
 }
 
