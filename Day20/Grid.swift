@@ -65,6 +65,12 @@ struct Grid {
             return grid.flippedVertically()
         })
     }
+    
+    func matches(_ mask: MonsterMask) -> Bool {
+        return mask.points.allSatisfy({ point in
+            contents[point] == "#"
+        })
+    }
 }
 
 extension Grid {
@@ -97,3 +103,42 @@ extension Grid {
     }
 }
 
+struct MonsterMask {
+    let points: Set<Point>
+    let size: Size
+    
+    func applying(_ transform: AffineTransform) -> MonsterMask {
+        let newPoints = Set(points.map({ $0.applying(transform) }))
+        return MonsterMask(points: newPoints, size: size)
+    }
+}
+
+extension MonsterMask {
+    init() {
+        var points = Set<Point>()
+        let monsterShape = """
+                              #
+            #    ##    ##    ###
+             #  #  #  #  #  #   
+            """
+        let rows = monsterShape.components(separatedBy: .newlines)
+        let height = rows.count
+        var width = 0
+        
+        for (rowIndex, row) in rows.enumerated() {
+            width = max(width, row.count)
+            
+            for (columnIndex, character) in row.enumerated() {
+                guard character == "#" else {
+                    continue
+                }
+                
+                let point = Point(x: columnIndex, y: rowIndex)
+                points.insert(point)
+            }
+        }
+        
+        self.points = points
+        self.size = Size(width: width, height: height)
+    }
+}

@@ -117,6 +117,17 @@ struct AffineTransform {
         )
     }
     
+    static func translation(x: Int, y: Int) -> AffineTransform {
+        AffineTransform(
+            a: 1,
+            b: 0,
+            c: 0,
+            d: 1,
+            tx: Double(x),
+            ty: Double(y)
+        )
+    }
+    
     static func scaleBy(x: Double, y: Double) -> AffineTransform {
         AffineTransform(
             a: x,

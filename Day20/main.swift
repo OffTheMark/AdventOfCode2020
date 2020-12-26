@@ -12,9 +12,9 @@ import Algorithms
 
 struct EdgeMatch {
     let leftTileIdentifier: Int
-    let leftEdge: String
+    let leftEdge: Tile.Edge
     let rightTileIdentifier: Int
-    let rightEdge: String
+    let rightEdge: Tile.Edge
     
     func reversed() -> EdgeMatch {
         EdgeMatch(
@@ -89,7 +89,7 @@ struct Day20: DayCommand {
         let tilesByIdentifier: [Int: Tile] = tiles.reduce(into: [:], { result, tile in
             result[tile.identifier] = tile
         })
-        let unmatchedEdgesByTile: [Int: Set<String>] = tiles.reduce(into: [:], { result, tile in
+        let unmatchedEdgesByTile: [Int: Set<Tile.Edge>] = tiles.reduce(into: [:], { result, tile in
             let matchedEdges = Set(edgeMatchesByTile[tile.identifier]!.map({ $0.leftEdge }))
             let unmatchedEdges = Set(tile.allEdges).subtracting(matchedEdges)
             result[tile.identifier] = unmatchedEdges
@@ -351,6 +351,36 @@ struct Day20: DayCommand {
         })
         
         let grid = Grid(assembledTiles: assembledTiles)
+        let mask = MonsterMask()
+        
+        for arrangement in grid.allArrangements {
+            var matchingMasks = [MonsterMask]()
+            
+            for row in 0 ... Int(arrangement.size.height - mask.size.height) {
+                for column in 0 ... Int(arrangement.size.width - mask.size.width) {
+                    let transform = AffineTransform.translation(x: column, y: row)
+                    let movedMask = mask.applying(transform)
+                    
+                    if arrangement.matches(movedMask) {
+                        matchingMasks.append(movedMask)
+                    }
+                }
+            }
+            
+            if matchingMasks.isEmpty == false {
+                let pointsOfMonsters: Set<Point> = matchingMasks.reduce(into: [], { result, mask in
+                    result.formUnion(mask.points)
+                })
+                
+                return arrangement.contents.count(where: { point, character in
+                    guard pointsOfMonsters.contains(point) == false else {
+                        return false
+                    }
+                    
+                    return character == "#"
+                })
+            }
+        }
         
         return 0
     }
