@@ -100,6 +100,7 @@ struct Day20: DayCommand {
                 result.insert(identifier)
             }
         })
+        var remainingNonCornerIdentifiers: Set<Int> = Set(tiles.map({ $0.identifier })).subtracting(remainingCornerIdentifiers)
         
         let sideLength = Int(sqrt(Double(tiles.count)))
         let rows = 0 ..< sideLength
@@ -118,34 +119,36 @@ struct Day20: DayCommand {
                 
                 if isFirstRow {
                     if isFirstColumn {
-                        let leftCornerIdentifier = remainingCornerIdentifiers.first!
-                        let leftCorner = tilesByIdentifier[leftCornerIdentifier]!
+                        let topLeftCorner = tilesByIdentifier[remainingCornerIdentifiers.first!]!
                             .allArrangements
                             .first(where: { tile in
                                 let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
-                                return [tile.leftEdge, tile.topEdge].allSatisfy({ edge in
+                                let topAndLeftEdgesAreUnmatched = [tile.leftEdge, tile.topEdge].allSatisfy({ edge in
                                     return [edge, String(edge.reversed())].contains(where: { unmatchedEdges.contains($0) })
                                 })
+                                
+                                return topAndLeftEdgesAreUnmatched
                             })!
                         
-                        remainingCornerIdentifiers.remove(leftCornerIdentifier)
-                        gridRow.append(leftCorner)
+                        remainingCornerIdentifiers.remove(topLeftCorner.identifier)
+                        gridRow.append(topLeftCorner)
                         continue
                     }
                     
+                    let leftTile = gridRow.last!
+                    
                     if isLastColumn {
                         let remainingCorners = remainingCornerIdentifiers.map({ tilesByIdentifier[$0]! })
-                        let leftTile = gridRow.last!
                         
-                        let rightCorner = remainingCorners
+                        let topRightCorner = remainingCorners
                             .flatMap({ $0.allArrangements })
                             .first(where: { tile in
                                 let unmatchedEges = unmatchedEdgesByTile[tile.identifier]!
-                                let topAndRightEdgesMatch = [tile.topEdge, tile.rightEdge].allSatisfy({ edge in
+                                let topAndRightEdgesAreUnmatched = [tile.topEdge, tile.rightEdge].allSatisfy({ edge in
                                     return [edge, String(edge.reversed())].contains(where: { unmatchedEges.contains($0) })
                                 })
                                 
-                                guard topAndRightEdgesMatch else {
+                                guard topAndRightEdgesAreUnmatched else {
                                     return false
                                 }
                                 
@@ -153,12 +156,10 @@ struct Day20: DayCommand {
                                 return leftEdgeMatches
                             })!
                         
-                        gridRow.append(rightCorner)
-                        remainingCornerIdentifiers.remove(rightCorner.identifier)
+                        gridRow.append(topRightCorner)
+                        remainingCornerIdentifiers.remove(topRightCorner.identifier)
                         continue
                     }
-                    
-                    let leftTile = gridRow.last!
                     
                     let correctTile = edgeMatchesByTile[leftTile.identifier]!
                         .flatMap({ tilesByIdentifier[$0.rightTileIdentifier]!.allArrangements })
@@ -179,8 +180,166 @@ struct Day20: DayCommand {
                         })!
                     
                     gridRow.append(correctTile)
+                    remainingNonCornerIdentifiers.remove(correctTile.identifier)
                     continue
                 }
+                
+                let topTile = assembledTiles.last![column]
+                let topCandidateTileIdentifiers: Set<Int> = edgeMatchesByTile[topTile.identifier]!
+                    .reduce(into: Set<Int>(), { result, match in
+                        result.insert(match.rightTileIdentifier)
+                    })
+                
+                if isLastRow {
+                    if isFirstColumn {
+                        let bottomLeftCorner = remainingCornerIdentifiers
+                            .flatMap({ tilesByIdentifier[$0]!.allArrangements })
+                            .first(where: { tile in
+                                let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
+                                let leftAndBottomEdgesAreUnmatched = [tile.leftEdge, tile.bottomEdge].allSatisfy({ edge in
+                                    return [edge, String(edge.reversed())].contains(where: { unmatchedEdges.contains($0) })
+                                })
+                                
+                                guard leftAndBottomEdgesAreUnmatched else {
+                                    return false
+                                }
+                                
+                                let topEdgeIsCorrect = tile.topEdge == topTile.bottomEdge
+                                return topEdgeIsCorrect
+                            })!
+                        
+                        remainingCornerIdentifiers.remove(bottomLeftCorner.identifier)
+                        remainingNonCornerIdentifiers.remove(bottomLeftCorner.identifier)
+                        gridRow.append(bottomLeftCorner)
+                        continue
+                    }
+                    
+                    let leftTile = gridRow.last!
+                    let leftCandidateTileIdentifiers: Set<Int> = edgeMatchesByTile[leftTile.identifier]!
+                        .reduce(into: Set<Int>(), { result, match in
+                            result.insert(match.rightTileIdentifier)
+                        })
+                    let candidateTileIdentifiers = leftCandidateTileIdentifiers.intersection(topCandidateTileIdentifiers)
+                    
+                    if isLastColumn {
+                        let bottomRightCorner = tilesByIdentifier[remainingCornerIdentifiers.first!]!
+                            .allArrangements
+                            .first(where: { tile in
+                                let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
+                                let rightAndBottomEdgesAreUnmatched = [tile.rightEdge, tile.bottomEdge].allSatisfy({ edge in
+                                    return [edge, String(edge.reversed())].contains(where: { unmatchedEdges.contains($0) })
+                                })
+                                
+                                guard rightAndBottomEdgesAreUnmatched else {
+                                    return false
+                                }
+                                
+                                let leftEdgeIsCorrect = tile.leftEdge == leftTile.rightEdge
+                                
+                                guard leftEdgeIsCorrect else {
+                                    return false
+                                }
+                                
+                                let topEdgeIsCorrect = tile.topEdge == topTile.bottomEdge
+                                return topEdgeIsCorrect
+                            })!
+                        
+                        remainingCornerIdentifiers.remove(bottomRightCorner.identifier)
+                        gridRow.append(bottomRightCorner)
+                        continue
+                    }
+                    
+                    let correctTile = candidateTileIdentifiers
+                        .flatMap({ tilesByIdentifier[$0]!.allArrangements })
+                        .first(where: { tile in
+                            let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
+                            
+                            let bottomEdgeIsUnmatched = [tile.bottomEdge, String(tile.bottomEdge.reversed())].contains(where: { unmatchedEdges.contains($0) })
+                            
+                            guard bottomEdgeIsUnmatched else {
+                                return false
+                            }
+                            
+                            let leftEdgeIsCorrect = tile.leftEdge == leftTile.rightEdge
+                            
+                            guard leftEdgeIsCorrect else {
+                                return false
+                            }
+                            
+                            let topEdgeIsCorrect = tile.topEdge == topTile.bottomEdge
+                            return topEdgeIsCorrect
+                        })!
+                    remainingNonCornerIdentifiers.remove(correctTile.identifier)
+                    gridRow.append(correctTile)
+                    
+                    continue
+                }
+                
+                if isFirstColumn {
+                    let candidateTiles: [Tile] = edgeMatchesByTile[topTile.identifier]!.compactMap({ match in
+                        guard remainingNonCornerIdentifiers.contains(match.rightTileIdentifier) else {
+                            return nil
+                        }
+                        
+                        return tilesByIdentifier[match.rightTileIdentifier]!
+                    })
+                    let correctTile = candidateTiles
+                        .flatMap({ $0.allArrangements })
+                        .first(where: { tile in
+                            let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
+                            
+                            let leftEdgeIsUnmatched = [tile.leftEdge, String(tile.leftEdge.reversed())].contains(where: { unmatchedEdges.contains($0) })
+                            
+                            guard leftEdgeIsUnmatched else {
+                                return false
+                            }
+                            
+                            let topEdgeIsCorrect = tile.topEdge == topTile.bottomEdge
+                            return topEdgeIsCorrect
+                        })!
+                    
+                    remainingNonCornerIdentifiers.remove(correctTile.identifier)
+                    gridRow.append(correctTile)
+                    continue
+                }
+                
+                let leftTile = gridRow.last!
+                let leftCandidateTileIdentifiers: Set<Int> = edgeMatchesByTile[leftTile.identifier]!
+                    .reduce(into: Set<Int>(), { result, match in
+                        result.insert(match.rightTileIdentifier)
+                    })
+                let candidateTileIdentifiers = leftCandidateTileIdentifiers.intersection(topCandidateTileIdentifiers)
+                
+                if isLastRow {
+                    let correctTile = candidateTileIdentifiers
+                        .flatMap({ tilesByIdentifier[$0]!.allArrangements })
+                        .first(where: { tile in
+                            let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
+                            
+                            let leftEdgeIsUnmatched = [tile.leftEdge, String(tile.leftEdge.reversed())].contains(where: { unmatchedEdges.contains($0) })
+                            
+                            guard leftEdgeIsUnmatched else {
+                                return false
+                            }
+                            
+                            let topEdgeIsCorrect = tile.topEdge == topTile.bottomEdge
+                            return topEdgeIsCorrect
+                        })!
+                    
+                    remainingNonCornerIdentifiers.remove(correctTile.identifier)
+                    gridRow.append(correctTile)
+                    continue
+                }
+                
+                let correctTile = candidateTileIdentifiers
+                    .flatMap({ tilesByIdentifier[$0]!.allArrangements })
+                    .first(where: { tile in
+                        let topEdgeIsCorrect = tile.topEdge == topTile.bottomEdge
+                        return topEdgeIsCorrect
+                    })!
+                remainingNonCornerIdentifiers.remove(correctTile.identifier)
+                gridRow.append(correctTile)
+                continue
             }
             
             assembledTiles.append(gridRow)
