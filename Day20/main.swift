@@ -210,7 +210,6 @@ struct Day20: DayCommand {
                             })!
                         
                         remainingCornerIdentifiers.remove(bottomLeftCorner.identifier)
-                        remainingNonCornerIdentifiers.remove(bottomLeftCorner.identifier)
                         gridRow.append(bottomLeftCorner)
                         continue
                     }
@@ -311,15 +310,15 @@ struct Day20: DayCommand {
                     })
                 let candidateTileIdentifiers = leftCandidateTileIdentifiers.intersection(topCandidateTileIdentifiers)
                 
-                if isLastRow {
+                if isLastColumn {
                     let correctTile = candidateTileIdentifiers
                         .flatMap({ tilesByIdentifier[$0]!.allArrangements })
                         .first(where: { tile in
                             let unmatchedEdges = unmatchedEdgesByTile[tile.identifier]!
                             
-                            let leftEdgeIsUnmatched = [tile.leftEdge, String(tile.leftEdge.reversed())].contains(where: { unmatchedEdges.contains($0) })
+                            let rightEdgeIsUnmatched = [tile.rightEdge, String(tile.rightEdge.reversed())].contains(where: { unmatchedEdges.contains($0) })
                             
-                            guard leftEdgeIsUnmatched else {
+                            guard rightEdgeIsUnmatched else {
                                 return false
                             }
                             
