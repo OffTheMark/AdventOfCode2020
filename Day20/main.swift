@@ -352,7 +352,7 @@ struct Day20: DayCommand {
         let grid = Grid(assembledTiles: assembledTiles)
         let mask = MonsterMask()
         
-        for arrangement in grid.allArrangements {
+        for var arrangement in grid.allArrangements {
             var matchingMasks = [MonsterMask]()
             
             for row in 0 ... Int(arrangement.size.height - mask.size.height) {
@@ -371,12 +371,15 @@ struct Day20: DayCommand {
                     result.formUnion(mask.points)
                 })
                 
+                for point in pointsOfMonsters {
+                    arrangement.contents[point] = "O"
+                }
+                
+                print("Grid with monsters:")
+                print(arrangement)
+                
                 return arrangement.contents.count(where: { point, character in
-                    guard pointsOfMonsters.contains(point) == false else {
-                        return false
-                    }
-                    
-                    return character == "#"
+                    character == "#"
                 })
             }
         }

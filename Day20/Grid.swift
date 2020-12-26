@@ -9,7 +9,7 @@ import Foundation
 import Algorithms
 
 struct Grid {
-    let contents: [Point: Character]
+    var contents: [Point: Character]
     let size: Size
     
     var center: Point {
@@ -79,6 +79,22 @@ struct Grid {
     }
 }
 
+extension Grid: CustomStringConvertible {
+    var description: String {
+        let rows = 0 ..< Int(size.height)
+        let columns = 0 ..< Int(size.width)
+        
+        let lines: [String] = rows.map({ row in
+            let characters = columns.map({ column -> Character in
+                let point = Point(x: column, y: row)
+                return contents[point, default: "."]
+            })
+            return String(characters)
+        })
+        return lines.joined(separator: "\n")
+    }
+}
+
 extension Grid {
     init(assembledTiles: [[Tile]]) {
         var assembledLines = [String]()
@@ -125,7 +141,7 @@ extension MonsterMask {
         let monsterShape = """
                               #
             #    ##    ##    ###
-             #  #  #  #  #  #   
+             #  #  #  #  #  #
             """
         let rows = monsterShape.components(separatedBy: .newlines)
         let height = rows.count
