@@ -27,7 +27,10 @@ struct Grid {
         
         let newContents: [Point: Character] = contents.reduce(into: [:], { result, element in
             let (point, character) = element
-            let transformedPoint = point.applying(transform)
+            var transformedPoint = point.applying(transform)
+            transformedPoint.x.round(.toNearestOrAwayFromZero)
+            transformedPoint.y.round(.toNearestOrAwayFromZero)
+            
             result[transformedPoint] = character
         })
         
@@ -42,7 +45,10 @@ struct Grid {
         
         let newContents: [Point: Character] = contents.reduce(into: [:], { result, element in
             let (point, character) = element
-            let transformedPoint = point.applying(transform)
+            var transformedPoint = point.applying(transform)
+            transformedPoint.x.round(.toNearestOrAwayFromZero)
+            transformedPoint.y.round(.toNearestOrAwayFromZero)
+            
             result[transformedPoint] = character
         })
         
