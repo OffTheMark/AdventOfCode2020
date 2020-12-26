@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Algorithms
 
 struct Tile {
     let identifier: Int
@@ -47,6 +48,23 @@ struct Tile {
     }
     
     var allEdges: [String] { [topEdge, rightEdge, bottomEdge, leftEdge] }
+    
+    var allArrangements: [Tile] {
+        let arrangements = [
+            self,
+            self.rotatedLeft(),
+            self.rotatedLeft().rotatedLeft(),
+            self.rotatedLeft().rotatedLeft().rotatedLeft()
+        ]
+        
+        return product([false, true], arrangements).map({ shouldFlip, tile in
+            if shouldFlip == false {
+                return tile
+            }
+            
+            return tile.flippedVertically()
+        })
+    }
 }
 
 extension Tile {
